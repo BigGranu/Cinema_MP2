@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cinema</RootNamespace>
     <AssemblyName>Cinema</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -61,10 +61,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Team MediaPortal\MP2-Client\MediaPortal.Utilities.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="MusicApiCollection, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>C:\Users\Knecht\Source\Repos\MediaPortal-2\MediaPortal\Packages\MusicApiCollection.0.1.0\lib\net451\MusicApiCollection.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -265,15 +261,20 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\Language"
-robocopy "$(ProjectDir)Language" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\Language" /MIR
-mkdir "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\Skin"
-robocopy "$(ProjectDir)Skin" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\Skin" /MIR 
-xcopy /Y "$(ProjectDir)plugin.xml" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\"
-xcopy /Y "$(TargetPath)" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\"
-xcopy /Y "$(TargetDir)GoogleMovies.dll" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\"
-xcopy /Y "$(TargetDir)Previewnetworks.dll" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\"
-xcopy /Y "$(TargetDir)MusicApiCollection.dll" "$(SolutionDir)..\Bin\$(SolutionName)\$(OutDir)Plugins\$(ProjectName)\"</PostBuildEvent>
+    <PostBuildEvent>SET OUT="G:\Source\MediaPortal-2\MediaPortal\Bin\MP2-Client\bin\Debug\Plugins\Cinema"
+
+mkdir "%25OUT%25"
+mkdir "%25OUT%25\Language"
+robocopy "$(ProjectDir)Language" "%25OUT%25\Language" /MIR
+mkdir "%25OUT%25\Skin"
+robocopy "$(ProjectDir)Skin" "%25OUT%25\Skin" /MIR 
+
+xcopy /Y "$(TargetDir)$(TargetFileName)" "%25OUT%25\"
+
+xcopy /Y "$(ProjectDir)plugin.xml" "%25OUT%25\"
+
+xcopy /Y "$(TargetDir)GoogleMovies.dll" "%25OUT%25\"
+xcopy /Y "$(TargetDir)Previewnetworks.dll" "%25OUT%25\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

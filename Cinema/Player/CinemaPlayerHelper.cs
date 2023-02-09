@@ -24,6 +24,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Cinema.Helper;
 using Cinema.Settings;
 using MediaPortal.Common;
@@ -51,22 +52,39 @@ namespace Cinema.Player
     /// <param name="trailer">Trailer.</param>
     private static MediaItem CreateStreamMediaItem(Trailer trailer)
     {
-      IDictionary<Guid, MediaItemAspect> aspects = new Dictionary<Guid, MediaItemAspect>();
+            //IDictionary<Guid, MediaItemAspect> aspects = new Dictionary<Guid, MediaItemAspect>();
 
-      MediaItemAspect providerResourceAspect;
-      aspects[ProviderResourceAspect.ASPECT_ID] = providerResourceAspect = new MediaItemAspect(ProviderResourceAspect.Metadata);
-      MediaItemAspect mediaAspect;
-      aspects[MediaAspect.ASPECT_ID] = mediaAspect = new MediaItemAspect(MediaAspect.Metadata);
-      aspects[VideoAspect.ASPECT_ID] = new MediaItemAspect(VideoAspect.Metadata); // VideoAspect needs to be contained for player mapping
+            //MediaItemAspect providerResourceAspect;
+            //aspects[ProviderResourceAspect.ASPECT_ID] = providerResourceAspect = new MediaItemAspect(ProviderResourceAspect.Metadata);
+            //MediaItemAspect mediaAspect;
+            //aspects[MediaAspect.ASPECT_ID] = mediaAspect = new MediaItemAspect(MediaAspect.Metadata);
+            //aspects[VideoAspect.ASPECT_ID] = new MediaItemAspect(VideoAspect.Metadata); // VideoAspect needs to be contained for player mapping
 
-      providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, RawUrlResourceProvider.ToProviderResourcePath(trailer.Url).Serialize());
-      providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_SYSTEM_ID, ServiceRegistration.Get<ISystemResolver>().LocalSystemId);
+            //providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, RawUrlResourceProvider.ToProviderResourcePath(trailer.Url).Serialize());
+            //providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_SYSTEM_ID, ServiceRegistration.Get<ISystemResolver>().LocalSystemId);
 
-      mediaAspect.SetAttribute(MediaAspect.ATTR_MIME_TYPE, CINEMA_MIMETYPE);
-      mediaAspect.SetAttribute(MediaAspect.ATTR_TITLE, trailer.Title);
+            //mediaAspect.SetAttribute(MediaAspect.ATTR_MIME_TYPE, CINEMA_MIMETYPE);
+            //mediaAspect.SetAttribute(MediaAspect.ATTR_TITLE, trailer.Title);
 
-      var mediaItem = new MediaItem(Guid.Empty, aspects);
-      return mediaItem;
-    }
+            //var mediaItem = new MediaItem(Guid.Empty, aspects);
+            //return mediaItem;
+
+            IDictionary<Guid, IList<MediaItemAspect>> aspects = new Dictionary<Guid, IList<MediaItemAspect>>();
+
+            MultipleMediaItemAspect providerResourceAspect = MediaItemAspect.CreateAspect(aspects, ProviderResourceAspect.Metadata);
+            SingleMediaItemAspect mediaAspect = MediaItemAspect.GetOrCreateAspect(aspects, MediaAspect.Metadata);
+            SingleMediaItemAspect audioAspect = MediaItemAspect.GetOrCreateAspect(aspects, VideoAspect.Metadata);
+
+            providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_TYPE, ProviderResourceAspect.TYPE_PRIMARY);
+            providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, RawUrlResourceProvider.ToProviderResourcePath(trailer.Url).Serialize());
+            providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_SYSTEM_ID, ServiceRegistration.Get<ISystemResolver>().LocalSystemId);
+            providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_MIME_TYPE, CINEMA_MIMETYPE);
+
+            mediaAspect.SetAttribute(MediaAspect.ATTR_TITLE, trailer.Title);
+
+            var mediaItem = new MediaItem(Guid.Empty, aspects);
+            return mediaItem;
+
+        }
   }
 }
