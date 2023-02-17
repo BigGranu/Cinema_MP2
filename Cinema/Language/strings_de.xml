@@ -1,16 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="Cinema.Title">Kino</string>
+
   <string name="Cinema.Location.Settings.ScreenTitle">Orte</string>
   <string name="Cinema.Location.Settings.Helptext">Gebe die Orte deiner Kinos ein</string>
   <string name="Cinema.Location.Settings.Search">Suchen</string>
+
   <string name="Cinema.Settings">Einstellungen</string>
+
   <string name="Cinema.LoadUpdate.Header">Lade Informationen</string>
   <string name="Cinema.LoadUpdate.Manually">Manuelles Update</string>
+
   <string name="Cinema.SelectQuality.Header">Wähle eine Qualität</string>
   <string name="Cinema.SelectCinema">Wähle ein Kino</string>
+
   <string name="Cinema.Models.CinemaComingSoonCinema">Demnächst im Kino</string>
   <string name="Cinema.Models.CinemaComingSoonBluRay">Demnächst auf BluRay</string>
+
+  <string name="Cinema.Dialog.SelectContentLanguage.Header">Sprache der Inhalte</string>
+
   <string name="Cinema.Movieinfos.Trailer">Trailer</string>
   <string name="Cinema.Movieinfos.Duration">Dauer:</string>
   <string name="Cinema.Movieinfos.AgeLimit">FSK:</string>
@@ -18,4 +26,25 @@
   <string name="Cinema.Movieinfos.Year">Jahr:</string>
   <string name="Cinema.Movieinfos.Genre">Genre:</string>
   <string name="Cinema.Movieinfos.Premiere">Premiere:</string>
+
+  <string name="Country.AR">Argentinien</string>
+  <string name="Country.AU">Australien</string>
+  <string name="Country.CA">Kanada</string>
+  <string name="Country.CL">Chile</string>
+  <string name="Country.DE">Deutschland</string>
+  <string name="Country.ES">Spanien</string>
+  <string name="Country.FR">Frankreich</string>
+  <string name="Country.IT">Italien</string>
+  <string name="Country.MX">Mexiko</string>
+  <string name="Country.NZ">Neuseeland</string>
+  <string name="Country.PT">Portugal</string>
+  <string name="Country.US">Vereinigte Staaten</string>
+  <string name="Country.UK">Vereinigtes Königreich</string>
+
+  <string name="Language.de">Deutsch</string>
+  <string name="Language.en">Englisch</string>
+  <string name="Language.es">Spanisch</string>
+  <string name="Language.fr">Französisch</string>
+  <string name="Language.it">Italienisch</string>
+  <string name="Language.pt">Portugiesisch</string>
 </resources>

@@ -37,6 +37,18 @@ namespace Cinema.Settings
     }
 
     /// <summary>
+    /// List of all Locations
+    /// </summary>
+    [Setting(SettingScope.User, "DE")]
+    public string LocationCountryCode { get; set; }
+
+    /// <summary>
+    /// Locations changed
+    /// </summary>
+    [Setting(SettingScope.User, "10119")]
+    public string LocationPostalCode { get; set; }
+
+    /// <summary>
     /// Selected ContentLanguage
     /// </summary>
     [Setting(SettingScope.User, "de")]

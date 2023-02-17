@@ -48,20 +48,35 @@ namespace Cinema.Dialoges
 
     public ItemsList items = new ItemsList();
 
+//<string name = "Country.AR" > Argentinien </ string >
+//< string name="Country.AU">Australien</string>
+//<string name = "Country.CA" > Kanada </ string >
+//< string name="Country.CL">Chile</string>
+//<string name = "Country.DE" > Deutschland </ string >
+//< string name="Country.ES">Spanien</string>
+//<string name = "Country.FR" > Frankreich </ string >
+//< string name="Country.IT">Italien</string>
+//<string name = "Country.MX" > Mexiko </ string >
+//< string name="Country.NZ">Neuseeland</string>
+//<string name = "Country.PT" > Portugal </ string >
+//< string name="Country.US">Vereinigte Staaten</string>
+
+//<string name = "Language.de" > Deutsch </ string >
+//< string name= "Language.en" > Englisch </ string >
+//< string name= "Language.es" > Spanisch </ string >
+//< string name= "Language.fr" > Französisch </ string >
+//< string name= "Language.it" > Italienisch </ string >
+//< string name= "Language.pt" > Portugiesisch </ string >
+
     private void Init()
     {
       items.Clear();
-      AddItem("[Cinema.Content.uk]", "uk");
-      AddItem("[Cinema.Content.fr]", "fr");
-      AddItem("[Cinema.Content.de]", "de");
-      AddItem("[Cinema.Content.es]", "es");
-      AddItem("[Cinema.Content.it]", "it");
-      AddItem("[Cinema.Content.ch]", "ch");
-      AddItem("[Cinema.Content.ch_fr]", "ch-fr");
-      AddItem("[Cinema.Content.nl]", "nl");
-      AddItem("[Cinema.Content.dk]", "dk");
-      AddItem("[Cinema.Content.se]", "se");
-      AddItem("[Cinema.Content.fi]", "fi");
+      AddItem("[Language.de]", "de");
+      AddItem("[Language.en]", "en");
+      AddItem("[Language.es]", "es");
+      AddItem("[Language.fr]", "fr");
+      AddItem("[Language.it]", "it");
+      AddItem("[Language.pt]", "pt");
 
       var settingsManager = ServiceRegistration.Get<ISettingsManager>();
       Settings = settingsManager.Load<CinemaSettings>();

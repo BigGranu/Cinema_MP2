@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
@@ -49,8 +50,8 @@ namespace Cinema.Models
 
     public ItemsList Cinemas = new ItemsList();
 
-    private static List<GoogleMovies.Cinema> _selectedCinemas = new List<GoogleMovies.Cinema>();
-    private static List<GoogleMovies.Cinema> _allCinemas = new List<GoogleMovies.Cinema>();
+    private static List<OnlineLibraries.Data.Cinema> _selectedCinemas = new List<OnlineLibraries.Data.Cinema>();
+    private static List<OnlineLibraries.Data.Cinema> _allCinemas = new List<OnlineLibraries.Data.Cinema>();
     private Locations _lSettings = new Locations();
 
     #endregion
@@ -74,15 +75,17 @@ namespace Cinema.Models
 
     #region public Methods
 
-    public void ReadCinemas()
+    public async void ReadCinemas()
     {
       Cinemas.Clear();
-      AddSelectedCinemasToAllCinemas();
+      //AddSelectedCinemasToAllCinemas();
 
-      foreach (var c in GoogleMovies.GoogleMovies.GetCinemas(Location).Where(IsCinemaNew))
-      {
-        _allCinemas.Add(c);
-      }
+      //foreach (var c in GoogleMovies.GoogleMovies.GetCinemas(Location).Where(IsCinemaNew))
+      //{
+      //  _allCinemas.Add(c);
+      //}
+
+      _allCinemas = Cinema.OnlineLibraries.Imdb.Read.Cinemas("88138", "DE");
 
       AddAllCinemas();
       Cinemas.FireChange();
@@ -115,11 +118,11 @@ namespace Cinema.Models
 
     private void AddSelectedCinemasToAllCinemas()
     {
-      _allCinemas = new List<GoogleMovies.Cinema>();
-      foreach (var c in _selectedCinemas)
-      {
-        _allCinemas.Add(c);
-      }
+      //_allCinemas = new List<GoogleMovies.Cinema>();
+      //foreach (var c in _selectedCinemas)
+      //{
+      //  _allCinemas.Add(c);
+      //}
     }
 
     private void AddAllCinemas()
@@ -137,45 +140,26 @@ namespace Cinema.Models
       }
     }
 
-    private static bool IsCinemaNew(GoogleMovies.Cinema cinema)
+    private static bool IsCinemaNew(OnlineLibraries.Data.Cinema cinema)
     {
       return _allCinemas.All(c => c.Id != cinema.Id);
     }
 
-    private static bool IsCinemaSelected(GoogleMovies.Cinema cinema)
+    private static bool IsCinemaSelected(OnlineLibraries.Data.Cinema cinema)
     {
       return _selectedCinemas.Any(ci => cinema.Id == ci.Id);
     }
 
     private void SetSelectedCinemas()
     {
-      _selectedCinemas = new List<GoogleMovies.Cinema>();
+      _selectedCinemas = new List<OnlineLibraries.Data.Cinema>();
       foreach (var c in from item in Cinemas where item.Selected from c in _allCinemas.Where(c => c.Id == (string)item.AdditionalProperties[NAME]) select c)
       {
         _selectedCinemas.Add(c);
       }
     }
 
-    #endregion
-
-    #region IWorkflowModel implementation
-
-    public Guid ModelId
-    {
-      get { return new Guid(MODEL_ID_STR); }
-    }
-
-    public bool CanEnterState(NavigationContext oldContext, NavigationContext newContext)
-    {
-      return true;
-    }
-
-    public void EnterModelContext(NavigationContext oldContext, NavigationContext newContext)
-    {
-      Init();
-    }
-
-    public void ExitModelContext(NavigationContext oldContext, NavigationContext newContext)
+    private void Save()
     {
       // copy all CinemaIds in a List to compare with the old Cinemas
       var l = _selectedCinemas.Select(c => c.Id).ToList();
@@ -204,6 +188,30 @@ namespace Cinema.Models
       ServiceRegistration.Get<ISettingsManager>().Save(_settings);
     }
 
+    #endregion
+
+    #region IWorkflowModel implementation
+
+    public Guid ModelId
+    {
+      get { return new Guid(MODEL_ID_STR); }
+    }
+
+    public bool CanEnterState(NavigationContext oldContext, NavigationContext newContext)
+    {
+      return true;
+    }
+
+    public void EnterModelContext(NavigationContext oldContext, NavigationContext newContext)
+    {
+      Init();
+    }
+
+    public void ExitModelContext(NavigationContext oldContext, NavigationContext newContext)
+    {
+      Save();
+    }
+
     public void ChangeModelContext(NavigationContext oldContext, NavigationContext newContext, bool push)
     {
       // We could initialize some data here when changing the media navigation state
@@ -211,6 +219,7 @@ namespace Cinema.Models
 
     public void Deactivate(NavigationContext oldContext, NavigationContext newContext)
     {
+      Save();
     }
 
     public void Reactivate(NavigationContext oldContext, NavigationContext newContext)

@@ -22,36 +22,42 @@
 
 #endregion
 
-using GoogleMovies;
+using System.Collections.Generic;
 using MediaPortal.Common.Settings;
 
 namespace Cinema.Settings
 {
   /// <summary>
-  /// Datalist Settings Class
+  /// Location Settings Class
   /// </summary>
-  public class Datalist
+  internal class Locations
   {
     /// <summary>
     /// Constructor
     /// </summary>
-    public Datalist()
+    public Locations()
     {
-      CinemaDataList = new CinemaDataList();
+      LocationSetupList = new List<OnlineLibraries.Data.Cinema>();
     }
 
     /// <summary>
     /// Constructor
     /// </summary>
-    public Datalist(CinemaDataList list)
+    public Locations(List<OnlineLibraries.Data.Cinema> list)
     {
-      CinemaDataList = list;
+      LocationSetupList = list;
     }
 
     /// <summary>
     /// List of all Locations
     /// </summary>
     [Setting(SettingScope.User, null)]
-    public CinemaDataList  CinemaDataList { get; set; }
+    public List<OnlineLibraries.Data.Cinema> LocationSetupList { get; set; }
+
+    /// <summary>
+    /// Locations changed
+    /// </summary>
+    [Setting(SettingScope.User, true)]
+    public bool Changed { get; set; }
   }
 }

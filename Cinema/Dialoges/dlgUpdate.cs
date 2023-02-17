@@ -26,9 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using GoogleMovies;
 using Cinema.Helper;
-using Cinema.Previewnetworks;
 using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
@@ -103,79 +101,79 @@ namespace Cinema.Dialoges
     {
       _updateIsRunning = true;
 
-      _settings = SETTINGS_MANAGER.Load<CinemaSettings>();
-      _locations = SETTINGS_MANAGER.Load<Locations>();
+      //_settings = SETTINGS_MANAGER.Load<CinemaSettings>();
+      //_locations = SETTINGS_MANAGER.Load<Locations>();
 
-      GoogleMovies.GoogleMovies.Data = new CinemaDataList { List = new List<CinemaData>() };
+      //GoogleMovies.GoogleMovies.Data = new CinemaDataList { List = new List<CinemaData>() };
 
-      if (_locations.LocationSetupList != null)
-      {
-        var cl = _locations.LocationSetupList;
-        int percent = 100 / (cl.Count);
+      //if (_locations.LocationSetupList != null)
+      //{
+      //  var cl = _locations.LocationSetupList;
+      //  int percent = 100 / (cl.Count);
 
-        foreach (var c in cl)
-        {
-          Info = c.Name;
-          GoogleMovies.GoogleMovies.Data.List.Add(GoogleMovies.GoogleMovies.GetCinemaData(c));
-          UpdateProgress += percent;
-        }
+      //  foreach (var c in cl)
+      //  {
+      //    Info = c.Name;
+      //    GoogleMovies.GoogleMovies.Data.List.Add(GoogleMovies.GoogleMovies.GetCinemaData(c));
+      //    UpdateProgress += percent;
+      //  }
 
-        UpdateProgress = 0;
+      //  UpdateProgress = 0;
 
-        GrappOtherInfos();
-      }
+      //  GrappOtherInfos();
+      //}
 
-      _settings.LastUpdate = DateTime.Today;
-      ServiceRegistration.Get<ISettingsManager>().Save(_settings);
+      //_settings.LastUpdate = DateTime.Today;
+      //ServiceRegistration.Get<ISettingsManager>().Save(_settings);
 
-      _locations.Changed = false;
-      ServiceRegistration.Get<ISettingsManager>().Save(_locations);
+      //_locations.Changed = false;
+      //ServiceRegistration.Get<ISettingsManager>().Save(_locations);
 
-      var datalist = new Datalist { CinemaDataList = GoogleMovies.GoogleMovies.Data };
-      ServiceRegistration.Get<ISettingsManager>().Save(datalist);
+      //var datalist = new Datalist { CinemaDataList = GoogleMovies.GoogleMovies.Data };
+      //ServiceRegistration.Get<ISettingsManager>().Save(datalist);
 
       _updateIsRunning = false;
     }
 
     public static void GrappOtherInfos()
     {
-      var ml = new List<Movie>();
-      var l = new List<string>();
-      _movies = new Movies();
+      //var ml = new List<Movie>();
+      //var l = new List<string>();
+      //_movies = new Movies();
 
-      foreach (var mo in from cd in GoogleMovies.GoogleMovies.Data.List from m in cd.MoviesOnDayList from mo in m.Movielist.Where(mo => !l.Contains(mo.Title)) select mo)
-      {
-        l.Add(mo.Title);
-        ml.Add(mo);
-      }
+      //foreach (var mo in from cd in GoogleMovies.GoogleMovies.Data.List from m in cd.MoviesOnDayList from mo in m.Movielist.Where(mo => !l.Contains(mo.Title)) select mo)
+      //{
+      //  l.Add(mo.Title);
+      //  ml.Add(mo);
+      //}
 
-      int percent = 100 / (ml.Count);
+      //int percent = 100 / (ml.Count);
 
-      foreach (Movie m in ml)
-      {
-        Info = m.Title;
+      //foreach (Movie m in ml)
+      //{
+      //  Info = m.Title;
 
-        var gm = new GrappedMovie();
-        var imdb = MovieInfo.GetImdbID(m.Title);
-        gm.ImdbID = imdb;
-        gm.Title = m.Title;
+      //  var gm = new GrappedMovie();
+      //  var imdb = MovieInfo.GetImdbID(m.Title);
+      //  gm.ImdbID = imdb;
+      //  gm.Title = m.Title;
 
-        var mi = new MovieInfo(imdb);
+      //  var mi = new MovieInfo(imdb);
 
-        gm.Poster = mi.Poster;
-        gm.Picture = mi.Picture;
-        gm.Description = mi.Description;
-        gm.Year = mi.Year;
-        gm.AgeLimit = mi.AgeLimit;
-        gm.Genre = mi.Genre;
-        gm.Trailer = mi.Trailer;
+      //  gm.Poster = mi.Poster;
+      //  gm.Picture = mi.Picture;
+      //  gm.Description = mi.Description;
+      //  gm.Year = mi.Year;
+      //  gm.AgeLimit = mi.AgeLimit;
+      //  gm.Genre = mi.Genre;
+      //  gm.Trailer = mi.Trailer;
 
-        _movies.MovieList.Add(gm);
-        UpdateProgress += percent;
-      }
+      //  _movies.MovieList.Add(gm);
+      //  UpdateProgress += percent;
+      //}
 
-      ServiceRegistration.Get<ISettingsManager>().Save(_movies);
-      UpdateProgress = 0;
+      //ServiceRegistration.Get<ISettingsManager>().Save(_movies);
+      //UpdateProgress = 0;
     }
 
     #region IWorkflowModel implementation

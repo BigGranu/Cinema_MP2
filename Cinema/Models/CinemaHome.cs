@@ -29,7 +29,6 @@ using System.Timers;
 using Cinema.Dialoges;
 using Cinema.Player;
 using Cinema.Settings;
-using GoogleMovies;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
 using MediaPortal.Common.Logging;
@@ -82,11 +81,11 @@ namespace Cinema.Models
 
         public static void SelectCinema(string id)
         {
-            foreach (var cd in GoogleMovies.GoogleMovies.Data.List.Where(cd => cd.Current.Id == id))
-            {
-                SelectedCinema = cd.Current.Name;
-                AddMoviesByCinema(cd.Current);
-            }
+            //foreach (var cd in GoogleMovies.GoogleMovies.Data.List.Where(cd => cd.Current.Id == id))
+            //{
+            //    SelectedCinema = cd.Current.Name;
+            //    AddMoviesByCinema(cd.Current);
+            //}
         }
 
         public static void SelectMovie(ListItem item)
@@ -98,42 +97,42 @@ namespace Cinema.Models
             }
         }
 
-        public static void AddMoviesByCinema(GoogleMovies.Cinema cinema)
+        public static void AddMoviesByCinema(OnlineLibraries.Data.Cinema cinema)
         {
-            Movies.Clear();
+            //Movies.Clear();
 
-            var ml = GoogleMovies.GoogleMovies.GetMoviesByCinema(cinema);
+            //var ml = GoogleMovies.GoogleMovies.GetMoviesByCinema(cinema);
 
-            foreach (var m in ml)
-            {
-                var item = new ListItem { AdditionalProperties = { [NAME] = m.Title } };
-                item.SetLabel("Name", m.Title);
+            //foreach (var m in ml)
+            //{
+            //    var item = new ListItem { AdditionalProperties = { [NAME] = m.Title } };
+            //    item.SetLabel("Name", m.Title);
 
-                for (var i = 0; i <= 3; i++)
-                {
-                    item.SetLabel("Day" + Convert.ToString(i), ShowtimesByCinemaMovieDay(cinema, m, i).Substring(0, 10));
-                    item.SetLabel("Day" + Convert.ToString(i) + "_Time", ShowtimesByCinemaMovieDay(cinema, m, i).Substring(12));
-                }
+            //    for (var i = 0; i <= 3; i++)
+            //    {
+            //        item.SetLabel("Day" + Convert.ToString(i), ShowtimesByCinemaMovieDay(cinema, m, i).Substring(0, 10));
+            //        item.SetLabel("Day" + Convert.ToString(i) + "_Time", ShowtimesByCinemaMovieDay(cinema, m, i).Substring(12));
+            //    }
 
-                var mm = SETTINGS_MANAGER.Load<Movies>().MovieList;
+            //    var mm = SETTINGS_MANAGER.Load<Movies>().MovieList;
 
-                foreach (var t in mm)
-                {
-                    if (t.Title == m.Title)
-                    {
-                        item.SetLabel("Poster", t.Poster);
-                        item.SetLabel("Picture", t.Picture);
-                        item.SetLabel("Description", t.Description);
-                        item.SetLabel("Year", t.Year);
-                        item.SetLabel("AgeLimit", t.AgeLimit);
-                        item.SetLabel("Genre", t.Genre);
-                        item.AdditionalProperties[TRAILER] = t.Trailer;
-                    }
-                }
-                item.SetLabel("Duration", m.Runtime);
-                Movies.Add(item);
-            }
-            Movies.FireChange();
+            //    foreach (var t in mm)
+            //    {
+            //        if (t.Title == m.Title)
+            //        {
+            //            item.SetLabel("Poster", t.Poster);
+            //            item.SetLabel("Picture", t.Picture);
+            //            item.SetLabel("Description", t.Description);
+            //            item.SetLabel("Year", t.Year);
+            //            item.SetLabel("AgeLimit", t.AgeLimit);
+            //            item.SetLabel("Genre", t.Genre);
+            //            item.AdditionalProperties[TRAILER] = t.Trailer;
+            //        }
+            //    }
+            //    item.SetLabel("Duration", m.Runtime);
+            //    Movies.Add(item);
+            //}
+            //Movies.FireChange();
         }
 
         public static void SetSelectedItem(object sender, SelectionChangedEventArgs e)
@@ -169,38 +168,40 @@ namespace Cinema.Models
 
         private static void Init()
         {
-            CkeckUpdate(true);
+            //CkeckUpdate(true);
 
-            if (GoogleMovies.GoogleMovies.Data.List != null && GoogleMovies.GoogleMovies.Data.List.Count > 0)
-            {
-                SelectCinema(GoogleMovies.GoogleMovies.Data.List[0].Current.Id);
-            }
+            //if (GoogleMovies.GoogleMovies.Data.List != null && GoogleMovies.GoogleMovies.Data.List.Count > 0)
+            //{
+            //    SelectCinema(GoogleMovies.GoogleMovies.Data.List[0].Current.Id);
+            //}
         }
 
         private static void CkeckUpdate(bool dialog)
         {
-            var dt1 = Convert.ToDateTime(SETTINGS_MANAGER.Load<Settings.CinemaSettings>().LastUpdate);
-            var dt = DateTime.Now - dt1;
-            // Is it a New Day ?
-            if (dt > new TimeSpan(1, 0, 0, 0))
-            {
-                MakeUpdate(dialog);
-            }
-            else if (SETTINGS_MANAGER.Load<Locations>().Changed)
-            {
-                MakeUpdate(dialog);
-            }
-            else
-            {
-                GoogleMovies.GoogleMovies.Data = SETTINGS_MANAGER.Load<Datalist>().CinemaDataList;
-            }
+            //var dt1 = Convert.ToDateTime(SETTINGS_MANAGER.Load<Settings.CinemaSettings>().LastUpdate);
+            //var dt = DateTime.Now - dt1;
+            //// Is it a New Day ?
+            //if (dt > new TimeSpan(1, 0, 0, 0))
+            //{
+            //    MakeUpdate(dialog);
+            //}
+            //else if (SETTINGS_MANAGER.Load<Locations>().Changed)
+            //{
+            //    MakeUpdate(dialog);
+            //}
+            //else
+            //{
+            //    GoogleMovies.GoogleMovies.Data = SETTINGS_MANAGER.Load<Datalist>().CinemaDataList;
+            //}
         }
 
-        private static string ShowtimesByCinemaMovieDay(GoogleMovies.Cinema cinema, Movie movie, int day)
-        {
-            var st = GoogleMovies.GoogleMovies.GetShowTimesByCinemaAndMovieAndDay(cinema, movie, day).Aggregate("", (current, s) => current + (s + " | "));
-            return GoogleMovies.GoogleMovies.GetNewDay(day) + ": " + st;
-        }
+        //private static string ShowtimesByCinemaMovieDay(Settings.Cinema cinema, Movie movie, int day)
+        //{
+        //    //var st = GoogleMovies.GoogleMovies.GetShowTimesByCinemaAndMovieAndDay(cinema, movie, day).Aggregate("", (current, s) => current + (s + " | "));
+        //    //return GoogleMovies.GoogleMovies.GetNewDay(day) + ": " + st;
+
+        //    return "";
+        //}
 
         private void ClearFanart()
         {
@@ -268,14 +269,14 @@ namespace Cinema.Models
         public void Activated(PluginRuntime pluginRuntime)
         {
             // Add Timer with event
-            ATimer.Elapsed += OnTimedEvent;
-            // Diff in sec To next Day 01.00.00
-            ATimer.Interval = DateTime.Today.AddHours(25).Subtract(DateTime.Now).TotalMilliseconds;
-            // Timer start
-            ATimer.Start();
+            //ATimer.Elapsed += OnTimedEvent;
+            //// Diff in sec To next Day 01.00.00
+            //ATimer.Interval = DateTime.Today.AddHours(25).Subtract(DateTime.Now).TotalMilliseconds;
+            //// Timer start
+            //ATimer.Start();
 
-            // Make Update
-            CkeckUpdate(false);
+            //// Make Update
+            //CkeckUpdate(false);
         }
 
         public bool RequestEnd()

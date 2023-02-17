@@ -6,7 +6,7 @@
   <Include.Resources>
 
     <!-- Header -->
-    <ResourceWrapper x:Key="Dialog_Header_Text" Resource="[Cinema.SelectContentLanguage.Header]"/>
+    <ResourceWrapper x:Key="Dialog_Header_Text" Resource="[Cinema.Dialog.SelectContentLanguage.Header]"/>
 
     <Model x:Key="Model" Id="A1529F09-767B-4164-B149-46F6D5729126"/>
 

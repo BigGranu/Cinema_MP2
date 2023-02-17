@@ -49,16 +49,16 @@ namespace Cinema.Dialoges
       items.Clear();
       var oneItemSelected = false;
 
-      foreach (var cd in GoogleMovies.GoogleMovies.Data.List)
-      {
-        var item = new ListItem();
-        item.AdditionalProperties[NAME] = cd.Current.Id;
-        item.SetLabel("Name", cd.Current.Name + " - " + cd.Current.Address);
-        items.Add(item);
-        if (oneItemSelected) continue;
-        CinemaHome.SelectCinema(cd.Current.Id);
-        oneItemSelected = true;
-      }
+      //foreach (var cd in GoogleMovies.GoogleMovies.Data.List)
+      //{
+      //  var item = new ListItem();
+      //  item.AdditionalProperties[NAME] = cd.Current.Id;
+      //  item.SetLabel("Name", cd.Current.Name + " - " + cd.Current.Address);
+      //  items.Add(item);
+      //  if (oneItemSelected) continue;
+      //  CinemaHome.SelectCinema(cd.Current.Id);
+      //  oneItemSelected = true;
+      //}
       items.FireChange();
     }
 

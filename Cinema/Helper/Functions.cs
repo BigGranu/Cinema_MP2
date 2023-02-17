@@ -24,51 +24,50 @@
 
 using MediaPortal.Common;
 using MediaPortal.Common.Localization;
-using Previewnetworks;
 
 namespace Cinema.Helper
 {
   public class Functions
   {
-    public static Search.Country DefaultCountry()
-    {
-      var localization = ServiceRegistration.Get<ILocalization>();
-      var re = localization.CurrentCulture.Name;
+    //public static Search.Country DefaultCountry()
+    //{
+    //  var localization = ServiceRegistration.Get<ILocalization>();
+    //  var re = localization.CurrentCulture.Name;
 
-      if (re.Contains("de-CH"))
-        return Search.Country.SwitzerlandGerman;
+    //  if (re.Contains("de-CH"))
+    //    return Search.Country.SwitzerlandGerman;
 
-      if (re.Contains("fr-CH"))
-        return Search.Country.SwitzerlandFrench;
+    //  if (re.Contains("fr-CH"))
+    //    return Search.Country.SwitzerlandFrench;
 
-      if (re.Contains("de-"))
-        return Search.Country.Germany;
+    //  if (re.Contains("de-"))
+    //    return Search.Country.Germany;
 
-      if (re.Contains("en-"))
-        return Search.Country.UnitedKingdom;
+    //  if (re.Contains("en-"))
+    //    return Search.Country.UnitedKingdom;
 
-      if (re.Contains("fr-"))
-        return Search.Country.France;
+    //  if (re.Contains("fr-"))
+    //    return Search.Country.France;
 
-      if (re.Contains("es-"))
-        return Search.Country.Spain;
+    //  if (re.Contains("es-"))
+    //    return Search.Country.Spain;
 
-      if (re.Contains("it-"))
-        return Search.Country.Italy;
+    //  if (re.Contains("it-"))
+    //    return Search.Country.Italy;
 
-      if (re.Contains("nl-"))
-        return Search.Country.Netherlands;
+    //  if (re.Contains("nl-"))
+    //    return Search.Country.Netherlands;
 
-      if (re.Contains("da-"))
-        return Search.Country.Denmark;
+    //  if (re.Contains("da-"))
+    //    return Search.Country.Denmark;
 
-      if (re.Contains("sv-"))
-        return Search.Country.Sweden;
+    //  if (re.Contains("sv-"))
+    //    return Search.Country.Sweden;
 
-      if (re.Contains("fi-"))
-        return Search.Country.Finland;
+    //  if (re.Contains("fi-"))
+    //    return Search.Country.Finland;
 
-      return Search.Country.Germany;
-    }
+    //  return Search.Country.Germany;
+    //}
   }
 }

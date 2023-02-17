@@ -33,4 +33,6 @@ namespace Cinema.Settings.Configuration
   public class ContentLanguage : CustomConfigSetting
   {
   }
+
+
 }

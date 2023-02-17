@@ -26,7 +26,6 @@ using System;
 using System.Collections.Generic;
 using Cinema.Helper;
 using Cinema.Player;
-using Cinema.Previewnetworks;
 using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
@@ -35,7 +34,6 @@ using MediaPortal.UI.Presentation.DataObjects;
 using MediaPortal.UI.Presentation.Models;
 using MediaPortal.UI.Presentation.Workflow;
 using MediaPortal.UI.SkinEngine.Controls.ImageSources;
-using Previewnetworks;
 
 namespace Cinema.Models
 {
@@ -97,30 +95,30 @@ namespace Cinema.Models
 
         private void Init()
         {
-            MovieInfo.Movies = new List<SortedMovie>();
-            MovieInfo.Movies = Search.CommingSoon(Functions.DefaultCountry(), Search.Feed.BluRay, Search.Typ.coming, 20);
-            FillItems();
+            //MovieInfo.Movies = new List<SortedMovie>();
+            //MovieInfo.Movies = Search.CommingSoon(Functions.DefaultCountry(), Search.Feed.BluRay, Search.Typ.coming, 20);
+            //FillItems();
         }
 
         private static void FillItems()
         {
-            Items.Clear();
-            foreach (var movie in MovieInfo.Movies)
-            {
-                var item = new ListItem { AdditionalProperties = { [NAME] = movie.Title } };
-                item.SetLabel("Name", movie.Title);
-                item.SetLabel("Poster", movie.Cover);
-                item.SetLabel("Picture", movie.Picture);
-                item.SetLabel("Description", movie.Description);
-                item.SetLabel("Year", movie.Year);
-                item.SetLabel("AgeLimit", movie.AgeLimit);
-                item.SetLabel("Genre", movie.Genre);
-                item.AdditionalProperties[TRAILER] = movie.Trailer;
-                item.SetLabel("Duration", movie.Duration);
-                item.SetLabel("Premiere", movie.Premiere);
-                Items.Add(item);
-            }
-            Items.FireChange();
+            //Items.Clear();
+            //foreach (var movie in MovieInfo.Movies)
+            //{
+            //    var item = new ListItem { AdditionalProperties = { [NAME] = movie.Title } };
+            //    item.SetLabel("Name", movie.Title);
+            //    item.SetLabel("Poster", movie.Cover);
+            //    item.SetLabel("Picture", movie.Picture);
+            //    item.SetLabel("Description", movie.Description);
+            //    item.SetLabel("Year", movie.Year);
+            //    item.SetLabel("AgeLimit", movie.AgeLimit);
+            //    item.SetLabel("Genre", movie.Genre);
+            //    item.AdditionalProperties[TRAILER] = movie.Trailer;
+            //    item.SetLabel("Duration", movie.Duration);
+            //    item.SetLabel("Premiere", movie.Premiere);
+            //    Items.Add(item);
+            //}
+            //Items.FireChange();
         }
 
         private void ClearFanart()

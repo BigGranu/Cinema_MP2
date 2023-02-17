@@ -187,8 +187,6 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
-# SVN Folder
-.svn
 
 #############
 ## Python
@@ -219,3 +217,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+packages/*
+/.vs
