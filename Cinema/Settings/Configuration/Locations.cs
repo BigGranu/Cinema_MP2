@@ -33,6 +33,8 @@ namespace Cinema.Settings.Configuration
   public class ContentLanguage : CustomConfigSetting
   {
   }
-
+  public class StartUpdate : CustomConfigSetting
+  {
+  }
 
 }

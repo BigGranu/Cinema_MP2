@@ -7,6 +7,8 @@
   <string name="Cinema.Location.Settings.Search">Suchen</string>
 
   <string name="Cinema.Settings">Einstellungen</string>
+  <string name="Cinema.Settings.Postalcode">Postleitzahl</string>
+  <string name="Cinema.Settings.ChooseCinema">Wähle deine Kinos aus</string>
 
   <string name="Cinema.LoadUpdate.Header">Lade Informationen</string>
   <string name="Cinema.LoadUpdate.Manually">Manuelles Update</string>
@@ -18,6 +20,7 @@
   <string name="Cinema.Models.CinemaComingSoonBluRay">Demnächst auf BluRay</string>
 
   <string name="Cinema.Dialog.SelectContentLanguage.Header">Sprache der Inhalte</string>
+  <string name="Cinema.Dialog.SelectCinemaCountry.Header">Land des Kinos</string>
 
   <string name="Cinema.Movieinfos.Trailer">Trailer</string>
   <string name="Cinema.Movieinfos.Duration">Dauer:</string>

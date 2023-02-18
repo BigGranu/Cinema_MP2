@@ -57,6 +57,12 @@
     <None Update="plugin.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Skin\default\screens\DlgSelectCinemaCountry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+    <None Update="Skin\default\screens\DlgStartUpdateForWeek.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

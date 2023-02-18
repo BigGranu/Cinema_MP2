@@ -24,26 +24,27 @@
 
 using System.Collections.Generic;
 using Cinema.Helper;
+using Cinema.OnlineLibraries.Data;
 using MediaPortal.Common.Settings;
 
 namespace Cinema.Settings
 {
-  internal class Movies
+  public class Movies
   {
     public Movies()
     {
-      MovieList = new List<GrappedMovie>();
+      CinemaMovies = new List<CinemaMovies>();
     }
 
-    public Movies(List<GrappedMovie> list)
+    public Movies(List<CinemaMovies> cinemaMovies)
     {
-      MovieList = list;
+      CinemaMovies = cinemaMovies;
     }
 
     /// <summary>
     /// List of all Locations
     /// </summary>
     [Setting(SettingScope.User, null)]
-    public List<GrappedMovie> MovieList { get; set; }
+    public List<CinemaMovies> CinemaMovies { get; set; }
   }
 }

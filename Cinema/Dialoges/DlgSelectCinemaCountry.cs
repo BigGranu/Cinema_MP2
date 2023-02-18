@@ -24,8 +24,9 @@
 
 using System;
 using System.Collections.Generic;
-using Cinema.Models;
+using Cinema.Settings;
 using MediaPortal.Common;
+using MediaPortal.Common.Settings;
 using MediaPortal.UI.Presentation.DataObjects;
 using MediaPortal.UI.Presentation.Models;
 using MediaPortal.UI.Presentation.Screens;
@@ -33,39 +34,54 @@ using MediaPortal.UI.Presentation.Workflow;
 
 namespace Cinema.Dialoges
 {
-  class DlgSelectCinema : IWorkflowModel 
+  internal class DlgSelectCinemaCountry : IWorkflowModel
   {
     #region Consts
 
-    public const string MODEL_ID_STR = "5CE9C2B8-FF38-4FBE-A3F8-66F5B5F3FA13";
+    public const string MODEL_ID_STR = "7EB0DBD6-4C7B-4FCC-A0CF-06EBE623426F";
     public const string NAME = "name";
+    public const string CODE = "code";
 
     #endregion
 
-    public static ItemsList items = new ItemsList();
+    public CinemaSettings Settings = new CinemaSettings();
 
-    public static void Init()
+    public ItemsList items = new ItemsList();
+    
+    private void Init()
     {
       items.Clear();
-      var oneItemSelected = false;
+      AddItem("[Country.AR]", "AR");
+      AddItem("[Country.AU]", "AU");
+      AddItem("[Country.CA]", "CA");
+      AddItem("[Country.CL]", "CL");
+      AddItem("[Country.DE]", "DE");
+      AddItem("[Country.ES]", "ES");
+      AddItem("[Country.FR]", "FR");
+      AddItem("[Country.IT]", "IT");
+      AddItem("[Country.MX]", "MX");
+      AddItem("[Country.NZ]", "NZ");
+      AddItem("[Country.PT]", "PT");
+      AddItem("[Country.US]", "US");
+      AddItem("[Country.UK]", "UK");
 
-      //foreach (var cd in GoogleMovies.GoogleMovies.Data.List)
-      //{
-      //  var item = new ListItem();
-      //  item.AdditionalProperties[NAME] = cd.Current.Id;
-      //  item.SetLabel("Name", cd.Current.Name + " - " + cd.Current.Address);
-      //  items.Add(item);
-      //  if (oneItemSelected) continue;
-      //  CinemaHome.SelectCinema(cd.Current.Id);
-      //  oneItemSelected = true;
-      //}
-      //items.FireChange();
+      var settingsManager = ServiceRegistration.Get<ISettingsManager>();
+      Settings = settingsManager.Load<CinemaSettings>();
     }
 
-    public static void Select(ListItem item)
+    private void AddItem(string name, string code)
     {
-      CinemaHome.SelectCinema((string)item.AdditionalProperties[NAME]);
-      ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();  
+      var item = new ListItem();
+      item.AdditionalProperties[NAME] = name;
+      item.AdditionalProperties[CODE] = code;
+      item.SetLabel("Name", name);
+      items.Add(item);
+    }
+
+    public void Select(ListItem item)
+    {
+      Cinema.Models.CinemaSettings.CountryCode = (string)item.AdditionalProperties[CODE];
+      ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();      
     }
 
     #region IWorkflowModel implementation
@@ -80,13 +96,14 @@ namespace Cinema.Dialoges
       return true;
     }
 
-    public void EnterModelContext(NavigationContext oldContext, NavigationContext newContext)    
+    public void EnterModelContext(NavigationContext oldContext, NavigationContext newContext)
     {
       Init();
     }
 
     public void ExitModelContext(NavigationContext oldContext, NavigationContext newContext)
     {
+      ServiceRegistration.Get<ISettingsManager>().Save(Settings);
     }
 
     public void ChangeModelContext(NavigationContext oldContext, NavigationContext newContext, bool push)

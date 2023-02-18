@@ -11,53 +11,60 @@ namespace Cinema.OnlineLibraries
 {
   public class Read
   {
-    public static List<List<Movie>> MoviesForAllDaysAndCinemas(string language, string country, string postalCode, List<string> cinemaIds)
+    public static List<CinemaMovies> MoviesForAllDaysAndCinemas(string language, string country, string postalCode, List<Data.Cinema> cinemas)
     {
-      List<List<Movie>> moviesForAllDays = new List<List<Movie>>();
+      List<CinemaMovies> moviesForAllDays = new List<CinemaMovies>();
 
-      foreach (var cinemaId in cinemaIds)
+      foreach (var cinema in cinemas)
       {
-        var allMovieTimes = Imdb.Read.MovieTimesWeek(cinemaId, postalCode, country);
+        CinemaMovies movies = new CinemaMovies();
+        movies.Cinema = cinema;
+
+        Eventhandler.Instance.NewMessageReceived("[C]" + cinema.Name);
+
+        var allMovieTimes = Imdb.Read.MovieTimesWeek(cinema.Id, postalCode, country);
 
         List<Movie> sortedMovies = SortMovieTimes(allMovieTimes);
 
         var showTimeMovies = AddShowtimes(sortedMovies, allMovieTimes);
+        
+        movies.Movies.AddRange(GetMoviedetailsFromTmdb(showTimeMovies, language));
 
-        moviesForAllDays.Add(GetMoviedetailsFromTmdb(showTimeMovies, language));
+        moviesForAllDays.Add(movies);
       }
 
       return moviesForAllDays;
     }
 
-    private static async Task<List<Movie>> ImdbMoviesOfTheWeek(string country, string postalCode)
-    {
-      List<string> ids = new List<string>();
-      List<Movie> imdbMovies = new List<Movie>();
+    //private static async Task<List<Movie>> ImdbMoviesOfTheWeek(string country, string postalCode)
+    //{
+    //  List<string> ids = new List<string>();
+    //  List<Movie> imdbMovies = new List<Movie>();
 
-      try
-      {
-        var days = Helper.Help.GetDays(7);
-        foreach (var day in days)
-        {
-          var currentMovies = await Imdb.Read.Movies(country, postalCode, day);
+    //  try
+    //  {
+    //    var days = Helper.Help.GetDays(7);
+    //    foreach (var day in days)
+    //    {
+    //      var currentMovies = await Imdb.Read.Movies(country, postalCode, day);
 
-          foreach (var cm in currentMovies)
-          {
-            if (!ids.Contains(cm.ImdbId))
-            {
-              ids.Add(cm.ImdbId);
-              imdbMovies.Add(cm);
-            }
-          }
-        }
-      }
-      catch (Exception e)
-      {
-        ExceptionHandler.Instance.NewExceptionReceived(e);
-      }
+    //      foreach (var cm in currentMovies)
+    //      {
+    //        if (!ids.Contains(cm.ImdbId))
+    //        {
+    //          ids.Add(cm.ImdbId);
+    //          imdbMovies.Add(cm);
+    //        }
+    //      }
+    //    }
+    //  }
+    //  catch (Exception e)
+    //  {
+    //    ExceptionHandler.Instance.NewExceptionReceived(e);
+    //  }
 
-      return imdbMovies;
-    }
+    //  return imdbMovies;
+    //}
 
     private static List<Movie> SortMovieTimes(List<List<MovieTime>> allMovieTimes)
     {
@@ -187,9 +194,15 @@ namespace Cinema.OnlineLibraries
 
       try
       {
-        foreach (var video in videos.Results)
+        if (videos != null)
         {
-          trailer.Add(new Trailer(video.Name, video.Key));
+          if (videos.Results != null)
+          {
+            foreach (var video in videos.Results)
+            {
+              trailer.Add(new Trailer(video.Name, video.Key));
+            }
+          }
         }
       }
       catch (Exception e)

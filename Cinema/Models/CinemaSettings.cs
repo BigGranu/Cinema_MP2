@@ -49,27 +49,46 @@ namespace Cinema.Models
     #region Vars
 
     public ItemsList Cinemas = new ItemsList();
+    
 
     private static List<OnlineLibraries.Data.Cinema> _selectedCinemas = new List<OnlineLibraries.Data.Cinema>();
     private static List<OnlineLibraries.Data.Cinema> _allCinemas = new List<OnlineLibraries.Data.Cinema>();
     private Locations _lSettings = new Locations();
 
+    private Settings.CinemaSettings _cinemaSettings;
     #endregion
 
     #region Propertys
 
-    private static readonly AbstractProperty _locationProperty = new WProperty(typeof(string), string.Empty);
+    #region PostalCode
+    private static readonly AbstractProperty _postalCodeProperty = new WProperty(typeof(string), string.Empty);
 
-    public AbstractProperty LocationProperty
+    public AbstractProperty PostalCodeProperty
     {
-      get { return _locationProperty; }
+      get { return _postalCodeProperty; }
     }
 
-    public string Location
+    public string PostalCode
     {
-      get { return (string)_locationProperty.GetValue(); }
-      set { _locationProperty.SetValue(value); }
+      get { return (string)_postalCodeProperty.GetValue(); }
+      set { _postalCodeProperty.SetValue(value); }
     }
+    #endregion
+
+    #region CountryCode
+    private static readonly AbstractProperty _countryCodeProperty = new WProperty(typeof(string), string.Empty);
+
+    public static AbstractProperty CountryCodeProperty
+    {
+      get { return _countryCodeProperty; }
+    }
+
+    public static string CountryCode
+    {
+      get { return (string)_countryCodeProperty.GetValue(); }
+      set { _countryCodeProperty.SetValue(value); }
+    }
+    #endregion
 
     #endregion
 
@@ -78,14 +97,12 @@ namespace Cinema.Models
     public async void ReadCinemas()
     {
       Cinemas.Clear();
-      //AddSelectedCinemasToAllCinemas();
+      AddSelectedCinemasToAllCinemas();
 
-      //foreach (var c in GoogleMovies.GoogleMovies.GetCinemas(Location).Where(IsCinemaNew))
-      //{
-      //  _allCinemas.Add(c);
-      //}
-
-      _allCinemas = Cinema.OnlineLibraries.Imdb.Read.Cinemas("88138", "DE");
+      foreach (var c in Cinema.OnlineLibraries.Imdb.Read.Cinemas(PostalCode, CountryCode).Where(IsCinemaNew))
+      {
+        _allCinemas.Add(c);
+      }
 
       AddAllCinemas();
       Cinemas.FireChange();
@@ -96,6 +113,11 @@ namespace Cinema.Models
       item.Selected = !item.Selected;
       SetSelectedCinemas();
       item.FireChange();
+    }
+
+    public void GetCountryCodes()
+    {
+      ServiceRegistration.Get<IWorkflowManager>().NavigatePushAsync(new Guid("C3DD373F-D15A-476A-A2D8-286625D7AD82"));
     }
 
     #endregion
@@ -114,15 +136,19 @@ namespace Cinema.Models
       AddSelectedCinemasToAllCinemas();
       AddAllCinemas();
       Cinemas.FireChange();
+
+      _cinemaSettings = settingsManager.Load<Settings.CinemaSettings>();
+      PostalCode = _cinemaSettings.LocationPostalCode;
+      CountryCode = _cinemaSettings.LocationCountryCode;
     }
 
     private void AddSelectedCinemasToAllCinemas()
     {
-      //_allCinemas = new List<GoogleMovies.Cinema>();
-      //foreach (var c in _selectedCinemas)
-      //{
-      //  _allCinemas.Add(c);
-      //}
+      _allCinemas = new List<OnlineLibraries.Data.Cinema>();
+      foreach (var c in _selectedCinemas)
+      {
+        _allCinemas.Add(c);
+      }
     }
 
     private void AddAllCinemas()
@@ -181,11 +207,10 @@ namespace Cinema.Models
       _lSettings.LocationSetupList = _selectedCinemas;
       _lSettings.Changed = b;
       ServiceRegistration.Get<ISettingsManager>().Save(_lSettings);
-
-      // Fix the Datebug
-      Settings.CinemaSettings _settings = new Settings.CinemaSettings();
-      _settings.LastUpdate = DateTime.Today;
-      ServiceRegistration.Get<ISettingsManager>().Save(_settings);
+      
+      _cinemaSettings.LocationPostalCode = PostalCode;
+      _cinemaSettings.LocationCountryCode = CountryCode;
+      ServiceRegistration.Get<ISettingsManager>().Save(_cinemaSettings);
     }
 
     #endregion

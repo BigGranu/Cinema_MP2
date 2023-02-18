@@ -14,6 +14,8 @@ namespace Cinema.OnlineLibraries.Imdb
 
       foreach (var d in days)
       {
+        Eventhandler.Instance.NewMessageReceived("[D]" + d);
+
         list.Add(MovieTimes(cinemaId, postalCode, country, d));
       }
 
@@ -76,6 +78,8 @@ namespace Cinema.OnlineLibraries.Imdb
               st = null;
             }
           }
+
+          Eventhandler.Instance.NewMessageReceived("[M]" + mt.Movie.Title);
 
           movieTimes.Add(mt);
         }

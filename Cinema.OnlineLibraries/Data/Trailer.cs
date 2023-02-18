@@ -9,7 +9,12 @@
     public Trailer(string name, string url)
     {
       Name = name;
-      Url = "https://www.youtube.com/watch?v=" + url;
+      Url = "https://youtu.be/" + url;
+    }
+
+    public Trailer()
+    {
+
     }
   }
 }

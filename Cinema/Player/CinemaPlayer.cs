@@ -24,6 +24,10 @@
 
 using System;
 using DirectShow;
+using DirectShow.Helper;
+using MediaPortal.Common;
+using MediaPortal.Common.Logging;
+using MediaPortal.Common.ResourceAccess;
 using MediaPortal.UI.Players.Video;
 using MediaPortal.UI.Players.Video.Tools;
 using MediaPortal.UI.Presentation.Players;
@@ -47,6 +51,31 @@ namespace Cinema.Player
       {
         FilterGraphTools.TryRelease(ref sourceFilter);
       }
+    }
+
+    protected override void AddSourceFilter()
+    {
+      Guid CLSID_LAV_SPLITTER = new Guid("{B98D13E7-55DB-4385-A33D-09FD1BA26338}");
+      var networkResourceAccessor = _resourceAccessor as INetworkResourceAccessor;
+      if (networkResourceAccessor != null)
+      {
+        ServiceRegistration.Get<ILogger>().Debug("{0}: Initializing for network media item '{1}'", PlayerTitle, networkResourceAccessor.URL);
+
+        var sourceFilter = FilterGraphTools.AddFilterFromClsid(_graphBuilder, CLSID_LAV_SPLITTER, "LAV Splitter Source");
+        if (sourceFilter != null)
+        {
+          var fileSourceFilter = ((IFileSourceFilter)sourceFilter);
+          var hr = (HRESULT)fileSourceFilter.Load(networkResourceAccessor.URL, null);
+
+          new HRESULT(hr).Throw();
+
+          using (DSFilter source2 = new DSFilter(sourceFilter))
+            foreach (DSPin pin in source2.Output)
+              hr = pin.Render(); // Some pins might fail rendering (i.e. subtitles), but the graph can be still playable
+        }
+        return;
+      }
+      base.AddSourceFilter();
     }
 
     public Type UIContributorType

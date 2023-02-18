@@ -38,4 +38,24 @@
       ExceptionReceived?.Invoke(new object(), ex);
     }
   }
+
+  public delegate void EventhandlerEvent(object sender, string message);
+  public class Eventhandler
+  {
+    public static Eventhandler _instance; 
+
+    public static Eventhandler Instance => _instance ?? (_instance = new Eventhandler());
+
+    public event EventhandlerEvent MessageReceived;
+
+    public Eventhandler()
+    {
+      _instance = this;
+    }
+
+    public void NewMessageReceived(string message)
+    {
+      MessageReceived?.Invoke(new object(), message);
+    }
+  }
 }
