@@ -128,6 +128,7 @@ namespace Cinema.Models
           Console.WriteLine(e);
         }
 
+        item.SetLabel("Title", m.Title);
         item.SetLabel("Poster", m.CoverUrl);
         item.SetLabel("Picture", m.Fanart);
         item.SetLabel("Description", m.Description);
