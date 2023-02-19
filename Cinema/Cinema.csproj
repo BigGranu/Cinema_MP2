@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="YoutubeExplode" Version="6.2.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Cinema.OnlineLibraries\Cinema.OnlineLibraries.csproj" />
   </ItemGroup>
 

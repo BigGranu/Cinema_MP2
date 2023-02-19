@@ -183,7 +183,7 @@ namespace Cinema.Models
       //todo Muss wieder durch Update ersetzt werden
       FullMovieList = SETTINGS_MANAGER.Load<Movies>();
 
-      if (FullMovieList != null && FullMovieList.CinemaMovies.Count > 0) SelectCinema(FullMovieList.CinemaMovies[0].Cinema.Id);
+      if (FullMovieList != null && FullMovieList.CinemaMovies != null && FullMovieList.CinemaMovies.Count > 0) SelectCinema(FullMovieList.CinemaMovies[0].Cinema.Id);
     }
 
     private static void CkeckUpdate(bool dialog)
