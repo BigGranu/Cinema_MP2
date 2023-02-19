@@ -132,10 +132,9 @@
       ClassName="Cinema.Settings.Configuration.ContentLanguage"
       AdditionalData="WorkflowState=EB0A0374-1341-48FF-AE2B-D2C98A92CCD1,ConfAppPanel=..."/>
 
-
     <CustomConfigSetting
       Id="Cinema_StartUpdate"
-      Text="Update zum testen"
+      Text="Update for testing"
       ClassName="Cinema.Settings.Configuration.StartUpdate"
       AdditionalData="WorkflowState=C6148983-0E4A-4127-9AE7-92E348C6AB0A,ConfAppPanel=..."/>
   </Register>
