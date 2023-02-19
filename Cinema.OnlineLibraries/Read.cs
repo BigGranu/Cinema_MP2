@@ -170,8 +170,17 @@ namespace Cinema.OnlineLibraries
 
                 foreach (var ttt in tt)
                 {
-                  DateTime d = DateTime.Parse(ttt.Trim());
-                  times += d.ToString("HH:mm") + "   ";
+                  if (ttt.Trim().Length > 5)
+                  {
+                    DateTime d = DateTime.Parse(ttt.Trim());
+                    times += d.ToString("HH:mm") + "   ";
+                  }
+                  else
+                  {
+                    DateTime d = DateTime.Parse(ttt.Trim()).AddHours(12);
+                    times += d.ToString("HH:mm") + "   ";
+                  }
+
                 }
               }
 
