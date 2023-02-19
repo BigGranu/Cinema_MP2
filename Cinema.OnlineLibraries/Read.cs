@@ -167,11 +167,20 @@ namespace Cinema.OnlineLibraries
               {
                 var t = st.Time;
                 var tt = t.Split('|');
+                bool am = false;
 
                 foreach (var ttt in tt)
                 {
-                  if (ttt.Trim().Length > 5)
+                  if (ttt.Trim().Length > 5 || am == true)
                   {
+                    if (ttt.Trim().Contains("am"))
+                    {
+                      am = true;
+                    }
+                    else
+                    {
+                      am = false;
+                    }
                     DateTime d = DateTime.Parse(ttt.Trim());
                     times += d.ToString("HH:mm") + "   ";
                   }
@@ -179,6 +188,7 @@ namespace Cinema.OnlineLibraries
                   {
                     DateTime d = DateTime.Parse(ttt.Trim()).AddHours(12);
                     times += d.ToString("HH:mm") + "   ";
+                    am = false;
                   }
 
                 }
