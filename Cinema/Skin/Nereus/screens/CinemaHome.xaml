@@ -3,7 +3,7 @@
   xmlns="www.team-mediaportal.com/2008/mpf/directx"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:fanart="clr-namespace:MediaPortal.Extensions.UserServices.FanArtService.Client;assembly=FanArtService.Client"
-  Source="screens\SimpleShowItems.xaml">
+  Source="screens\master_mediamenu.xaml">
   <Include.Resources>
 
     <!-- Header -->
@@ -15,187 +15,199 @@
 
     <!-- Contents -->
     <ControlTemplate x:Key="Contents_Template">
-      <DockPanel DataContext="{Binding Source={StaticResource Model}}">
-        <Grid>
+      <Grid DataContext="{Binding Source={StaticResource Model}}">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="1000"/>
+        </Grid.ColumnDefinitions>
+
+        <!--List of Movies-->
+        <ListView x:Name="Movies" Margin="-10,5,-50,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource CinemaMovieViewStyle}"
+                  ItemsSource="{Binding Path=Movies, Mode=TwoWay}" Grid.Column="0" Grid.RowSpan="2"
+                  SelectionChanged="{CommandStencil Path=SetSelectedItem}">
+          <!--<EventSetter Event="SelectionChanged" Handler="{CommandStencil Source={StaticResource Model}, Path=SetSelectedItem}"/>-->
+          <ListView.Resources>
+            <CommandList x:Key="Menu_Command">
+              <Command Source="{StaticResource Model}" Path="SelectMovie">
+                <Command.Parameters>
+                  <LateBoundValue BindingValue="{Binding}"/>
+                </Command.Parameters>
+              </Command>
+            </CommandList>
+          </ListView.Resources>
+        </ListView>
+
+        <!---Space for Listview Details-->
+        <Grid Grid.Column="1" Width="1000" Height="1200" Background="#33000000" Margin="45,-90,-20,-270">
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1000"/>
           </Grid.ColumnDefinitions>
 
-          <!--List of Movies-->
-          <ListView x:Name="Movies" Margin="-10,5,-50,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource MainMenuListViewStyle}"
-                    ItemsSource="{Binding Path=Movies, Mode=TwoWay}" Grid.Column="0" Grid.RowSpan="2"
-                    SelectionChanged="{CommandStencil Path=SetSelectedItem}">
-            <!--<EventSetter Event="SelectionChanged" Handler="{CommandStencil Source={StaticResource Model}, Path=SetSelectedItem}"/>-->
-            <ListView.Resources>
-              <CommandList x:Key="Menu_Command">
-                <Command Source="{StaticResource Model}" Path="SelectMovie">
-                  <Command.Parameters>
-                    <LateBoundValue BindingValue="{Binding}"/>
-                  </Command.Parameters>
-                </Command>
-              </CommandList>
-            </ListView.Resources>
-          </ListView>
-
-          <!---Space for Listview Details-->
-          <Grid Grid.Column="1" Width="1000" Height="1200" Background="#33000000" Margin="45,-90,-20,-270">
+          <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.Resources>
+              <fanart:FanArtImageSourceConverter x:Key="FanArtImageSourceConverter"/>
+              <Model x:Key="FanArtBackgroundModel" Id="8F42C8E9-E8A3-475C-A50A-99E1E644DC91"/>
+              <Model x:Key="SkinSettingsModel" Id="13961014-16C4-4361-9751-8E2C585EFD44"/>
+            </Grid.Resources>
             <Grid.RowDefinitions>
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-              <Grid.Resources>
-                <fanart:FanArtImageSourceConverter x:Key="FanArtImageSourceConverter"/>
-                <Model x:Key="FanArtBackgroundModel" Id="8F42C8E9-E8A3-475C-A50A-99E1E644DC91"/>
-                <Model x:Key="SkinSettingsModel" Id="13961014-16C4-4361-9751-8E2C585EFD44"/>
-              </Grid.Resources>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-              </Grid.ColumnDefinitions>
-              <Image x:Name="FanArtImageBackground" Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                     IsVisible="{Binding Source={StaticResource SkinSettingsModel}, Path=[Nereus].EnableFanart}">
-                <Image.Source>
-                  <ImageSourceWrapper Delay="0.5" DelayInOut="true" Transition="transitions\dissolve" TransitionDuration="0.5"
-                                      Source="{Binding Source={StaticResource FanArtBackgroundModel}, Path=ImageSource, Converter={StaticResource FanArtImageSourceConverter}, ConverterParameter=FanArt;1920;1080;False}"/>
-                </Image.Source>
-              </Image>
-              <Image Stretch="Fill" Source="List_overlay.png"/>
-              <Image Source="ContentGlow.png" Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="-20,0,0,0"/>
-              <Border BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Border.Background>
-                  <LinearGradientBrush StartPoint="1,0.3" EndPoint="0,1">
-                    <GradientStop Color="#44000000" Offset="0.0"/>
-                    <GradientStop Color="#77000000" Offset="1"/>
-                  </LinearGradientBrush>
-                </Border.Background>
-              </Border>
-            </Grid>
-
-            <!--Infos-->
-            <Grid Grid.Column="0" Grid.Row="0" Margin="15,105,5,5">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="250"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-              </Grid.RowDefinitions>
-
-              <Label Content="{Binding Path=SelectedCinema}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
-                     HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis"/>
-
-              <!--Showtimes-->
-              <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.Row="1" Margin="15,5,5,5">
-                <Grid Margin="0" >
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="25*"/>
-                    <ColumnDefinition Width="75*"/>
-                  </Grid.ColumnDefinitions>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="25*"/>
-                    <RowDefinition Height="25*"/>
-                    <RowDefinition Height="25*"/>
-                    <RowDefinition Height="25*"/>
-                  </Grid.RowDefinitions>
-
-                  <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day0]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
-                  <Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day0_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
-
-                  <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day1]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
-                  <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day1_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
-
-                  <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day2]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
-                  <Label Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day2_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
-
-                  <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day3]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
-                  <Label Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    Content="{Binding [Day3_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
-                </Grid>
-              </StackPanel>
-
-              <Label Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding [Title]}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
-                     HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"/>
-
-              <StackPanel Orientation="Vertical" Grid.Row="3" Margin="15,10,5,5">
-                <!--Infos - Year-->
-                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                      IsVisible="{Binding ElementName=Year, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                  <Image Source="HomeContentIcons\year.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <Label x:Name="Year" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
-                         Content="{Binding [Year]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
-                </Grid>
-
-                <!--Infos - Genre-->
-                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                      IsVisible="{Binding ElementName=Genre, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                  <Image Source="HomeContentIcons\Genre.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <Label x:Name="Genre" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
-                         Content="{Binding [Genre]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
-                </Grid>
-
-                <!--Infos - Duration-->
-                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                      IsVisible="{Binding ElementName=Duration, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                  <Image Source="HomeContentIcons\Duration.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Label x:Name="Duration" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
-                           IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}"
-                           Content="{Binding [Duration]}" VerticalAlignment="Center" Margin="40,0,0,0"/>
-                    <Label Content=" " IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
-                    <Label Content="[Media.Minutes]" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
-                           IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
-                  </StackPanel>
-                </Grid>
-
-                <!--Infos - AgeLimit-->
-                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                      IsVisible="{Binding ElementName=AgeLimit, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                  <Image Source="HomeContentIcons\Rating.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <Label x:Name="AgeLimit" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
-                         Content="{Binding [AgeLimit]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
-                </Grid>
-              </StackPanel>
-
-              <!--Infos - Description-->
-              <Label Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Margin="15,0,0,0"
-                     Content="{Binding [Description]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Wrap="True" Scroll="Auto" ScrollSpeed="5" Height="350"/>
-
-
-              <!--Poster-->
-              <Image x:Name="imgPoster" Grid.Column="1" Grid.RowSpan="2" Grid.Row="3" Margin="20,20,40,105" Width="350"
-                     Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [Poster]}" />
-
-            </Grid>
+            <Image x:Name="FanArtImageBackground" Stretch="UniformToFill" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                   IsVisible="{Binding Source={StaticResource SkinSettingsModel}, Path=[Nereus].EnableFanart}">
+              <Image.Source>
+                <ImageSourceWrapper Delay="0.5" DelayInOut="true" Transition="transitions\dissolve" TransitionDuration="0.5"
+                                    Source="{Binding Source={StaticResource FanArtBackgroundModel}, Path=ImageSource, Converter={StaticResource FanArtImageSourceConverter}, ConverterParameter=FanArt;1920;1080;False}"/>
+              </Image.Source>
+            </Image>
+            <Image Stretch="Fill" Source="List_overlay.png"/>
+            <Image Source="ContentGlow.png" Stretch="Uniform" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="-20,0,0,0"/>
+            <Border BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+              <Border.Background>
+                <LinearGradientBrush StartPoint="1,0.3" EndPoint="0,1">
+                  <GradientStop Color="#44000000" Offset="0.0"/>
+                  <GradientStop Color="#77000000" Offset="1"/>
+                </LinearGradientBrush>
+              </Border.Background>
+            </Border>
           </Grid>
 
+          <!--Infos-->
+          <Grid Grid.Column="0" Grid.Row="0" Margin="15,90,5,5">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*"/>
+              <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="250"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="Auto"/>
+              <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="{Binding Path=SelectedCinema}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
+                   HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis"/>
+
+            <!--Showtimes-->
+            <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.Row="1" Margin="15,5,5,5">
+              <Grid Margin="0" >
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="25*"/>
+                  <ColumnDefinition Width="75*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="25*"/>
+                  <RowDefinition Height="25*"/>
+                  <RowDefinition Height="25*"/>
+                  <RowDefinition Height="25*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day0]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day0_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
+
+                <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day1]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day1_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
+
+                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day2]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day2_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
+
+                <Label Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day3]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day3_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="5"/>
+              </Grid>
+            </StackPanel>
+
+            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding [Title]}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
+                   HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="3" Margin="15,10,5,5">
+              <!--Infos - Year-->
+              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                    IsVisible="{Binding ElementName=Year, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                <Image Source="HomeContentIcons\year.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label x:Name="Year" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
+                       Content="{Binding [Year]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
+              </Grid>
+
+              <!--Infos - Genre-->
+              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                    IsVisible="{Binding ElementName=Genre, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                <Image Source="HomeContentIcons\Genre.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label x:Name="Genre" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0" TextTrimming="CharacterEllipsis"
+                       Content="{Binding [Genre]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
+              </Grid>
+
+              <!--Infos - Duration-->
+              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                    IsVisible="{Binding ElementName=Duration, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                <Image Source="HomeContentIcons\Duration.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <Label x:Name="Duration" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
+                         IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}"
+                         Content="{Binding [Duration]}" VerticalAlignment="Center" Margin="40,0,0,0"/>
+                  <Label Content=" " IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
+                  <Label Content="[Media.Minutes]" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
+                         IsVisible="{Binding Path=[Duration],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
+                </StackPanel>
+              </Grid>
+
+              <!--Infos - AgeLimit-->
+              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                    IsVisible="{Binding ElementName=AgeLimit, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                <Image Source="HomeContentIcons\Rating.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label x:Name="AgeLimit" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
+                       Content="{Binding [AgeLimit]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
+              </Grid>
+            </StackPanel>
+
+            <!--Infos - Description-->
+            <Label Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Margin="15,0,0,0"
+                   Content="{Binding [Description]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Wrap="True" TextTrimming="WordEllipsis" Height="350"/>
+
+            <!--Poster-->
+            <Image x:Name="imgPoster" Grid.Column="1" Grid.RowSpan="2" Grid.Row="3" Margin="20,20,40,95" Width="350"
+                   Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [Poster]}"/>
+
+          </Grid>
         </Grid>
-      </DockPanel>
+
+        <Border Grid.RowSpan="2" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" BorderThickness="0" Height="100" Panel.ZIndex="1000" Margin="-20,0,-20,-270">
+          <Border.Background>
+            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+              <GradientStop Color="#E6000000" Offset="1" />
+              <GradientStop Color="#78000000" Offset="0.87" />
+              <GradientStop Color="#46000000" Offset="0.75" />
+              <GradientStop Color="#21000000" Offset="0.6" />
+              <GradientStop Color="#0C000000" Offset="0.45" />
+              <GradientStop Color="#01000000" Offset="0.3" />
+              <GradientStop Color="#00000000" Offset="0" />
+            </LinearGradientBrush>
+          </Border.Background>
+        </Border>
+        
+      </Grid>
     </ControlTemplate>
+
   </Include.Resources>
 </Include>
