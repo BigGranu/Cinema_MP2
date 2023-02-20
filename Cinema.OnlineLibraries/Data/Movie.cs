@@ -16,6 +16,7 @@ namespace Cinema.OnlineLibraries.Data
     public string Language { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public string Country { get; set; } = string.Empty;
+    public string UserRating { get; set; } = string.Empty;
 
     public List<Trailer> Trailer { get; set; }
 

@@ -62,6 +62,9 @@ namespace Cinema.OnlineLibraries.Imdb
           var p5 = item.SelectSingleNode(".//*[@itemprop=\"duration\"]");
           if (p5 != null) mt.Movie.Runtime = p5.InnerText.Trim();
 
+          var p6 = item.SelectSingleNode(".//*[@itemprop=\"ratingValue\"]");
+          if (p6 != null) mt.Movie.UserRating = p6.InnerText.Trim();
+
           var showTimes = item.SelectSingleNode(".//*[@class=\"info\"]");
           Imdb.Showtime st = null;
           foreach (var cn in showTimes.ChildNodes)
