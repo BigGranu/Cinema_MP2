@@ -138,6 +138,7 @@ namespace Cinema.OnlineLibraries
           m.Country = Countrys(tmdbMovie.ProductionCountries);
           m.Trailer = Trailer(tmdbMovie.Videos);
           m.Showtimes = movie.Showtimes;
+          m.UserRating = movie.UserRating;
           movies.Add(m);
         }
       }
