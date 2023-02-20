@@ -136,6 +136,7 @@ namespace Cinema.Models
         item.SetLabel("AgeLimit", m.Age);
         item.SetLabel("Genre", m.Genres);
         item.SetLabel("UserRating", m.UserRating);
+        item.SetLabel("UserRatingScaled", m.UserRatingScaled);
         if (m.Trailer.Count > 0)
         {
           item.AdditionalProperties[TRAILER] = m.Trailer[0].Url;
