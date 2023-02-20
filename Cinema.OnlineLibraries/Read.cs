@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Cinema.OnlineLibraries.Data;
+using Cinema.OnlineLibraries.Helper;
 using Cinema.OnlineLibraries.Tmdb.Data;
 using Movie = Cinema.OnlineLibraries.Data.Movie;
 
@@ -138,7 +139,7 @@ namespace Cinema.OnlineLibraries
           m.Country = Countrys(tmdbMovie.ProductionCountries);
           m.Trailer = Trailer(tmdbMovie.Videos);
           m.Showtimes = movie.Showtimes;
-          m.UserRating = movie.UserRating;
+          m.UserRating = Help.UserRatingFromString(movie.UserRating.Replace(".", ","));
           movies.Add(m);
         }
       }

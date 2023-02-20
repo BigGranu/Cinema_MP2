@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 
 namespace Cinema.OnlineLibraries.Helper
 {
 
-  internal class Help
+  public class Help
   {
     public static string TimeStampToDate(double unixTimeStamp)
     {
@@ -44,6 +45,17 @@ namespace Cinema.OnlineLibraries.Helper
       }
 
       return days;
+    }
+
+    public static string UserRatingFromString(string userRating)
+    {
+      bool success = double.TryParse(userRating, out var number);
+      if (success)
+      {
+        double r = number / 2;
+        return ((int)Math.Round(r)).ToString();
+      }
+      return "0";
     }
   }
 
