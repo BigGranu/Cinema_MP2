@@ -25,7 +25,9 @@
 using System;
 using System.Collections.Generic;
 using Cinema.Models;
+using Cinema.Settings;
 using MediaPortal.Common;
+using MediaPortal.Common.Settings;
 using MediaPortal.UI.Presentation.DataObjects;
 using MediaPortal.UI.Presentation.Models;
 using MediaPortal.UI.Presentation.Screens;
@@ -48,18 +50,24 @@ namespace Cinema.Dialoges
     {
       items.Clear();
       var oneItemSelected = false;
-
-      //foreach (var cd in GoogleMovies.GoogleMovies.Data.List)
-      //{
-      //  var item = new ListItem();
-      //  item.AdditionalProperties[NAME] = cd.Current.Id;
-      //  item.SetLabel("Name", cd.Current.Name + " - " + cd.Current.Address);
-      //  items.Add(item);
-      //  if (oneItemSelected) continue;
-      //  CinemaHome.SelectCinema(cd.Current.Id);
-      //  oneItemSelected = true;
-      //}
-      //items.FireChange();
+      var cinemas = ServiceRegistration.Get<ISettingsManager>().Load<Locations>();
+      if (cinemas != null)
+      {
+        if (cinemas.LocationSetupList != null)
+        {
+          foreach (var cd in cinemas.LocationSetupList)
+          {
+            var item = new ListItem();
+            item.AdditionalProperties[NAME] = cd.Id;
+            item.SetLabel("Name", cd.Name + " - " + cd.Address);
+            items.Add(item);
+            if (oneItemSelected) continue;
+            CinemaHome.SelectCinema(cd.Id);
+            oneItemSelected = true;
+          }
+        }
+      }
+      items.FireChange();
     }
 
     public static void Select(ListItem item)
