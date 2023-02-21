@@ -1,7 +1,7 @@
-﻿#region Copyright (C) 2007-2014 Team MediaPortal
+﻿#region Copyright (C) 2007-2023 Team MediaPortal
 
 /*
-    Copyright (C) 2007-2014 Team MediaPortal
+    Copyright (C) 2007-2023 Team MediaPortal
     http://www.team-mediaportal.com
 
     This file is part of MediaPortal 2
@@ -24,9 +24,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using Cinema.Helper;
 using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.MediaManagement;
@@ -76,12 +74,21 @@ namespace Cinema.Player
 
     private static async Task<string> TryGetDirectVideoUrl(string trailerUrl)
     {
-      var youtube = new YoutubeClient();
+      try
+      {
+        var youtube = new YoutubeClient();
 
-      var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
-      var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
+        var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
+        var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
 
-      return streamInfo?.Url;
+        return streamInfo?.Url;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+      }
+
+      return "";
     }
   }
 }

@@ -1,7 +1,7 @@
-﻿#region Copyright (C) 2007-2014 Team MediaPortal
+﻿#region Copyright (C) 2007-2023 Team MediaPortal
 
 /*
-    Copyright (C) 2007-2014 Team MediaPortal
+    Copyright (C) 2007-2023 Team MediaPortal
     http://www.team-mediaportal.com
 
     This file is part of MediaPortal 2
@@ -24,11 +24,8 @@
 
 using System;
 using System.Collections.Generic;
-using Cinema.Models;
 using Cinema.OnlineLibraries;
-using Cinema.OnlineLibraries.Data;
 using Cinema.Settings;
-using Cinema.Settings.Configuration;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
 using MediaPortal.Common.Settings;
