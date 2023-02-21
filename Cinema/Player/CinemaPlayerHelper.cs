@@ -29,6 +29,7 @@ using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.MediaManagement;
 using MediaPortal.Common.MediaManagement.DefaultItemAspects;
+using MediaPortal.Common.ResourceAccess;
 using MediaPortal.Common.Services.ResourceAccess.RawUrlResourceProvider;
 using MediaPortal.Common.SystemResolver;
 using MediaPortal.UiComponents.Media.Models;
@@ -74,21 +75,12 @@ namespace Cinema.Player
 
     private static async Task<string> TryGetDirectVideoUrl(string trailerUrl)
     {
-      try
-      {
-        var youtube = new YoutubeClient();
+      var youtube = new YoutubeClient();
 
-        var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
-        var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
+      var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
+      var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
 
-        return streamInfo?.Url;
-      }
-      catch (Exception e)
-      {
-        Console.WriteLine(e);
-      }
-
-      return "";
+      return streamInfo?.Url;
     }
   }
 }

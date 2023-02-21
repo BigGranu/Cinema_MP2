@@ -24,7 +24,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Timers;
+using System.Xml.Linq;
 using Cinema.Dialoges;
 using Cinema.OnlineLibraries.Data;
 using Cinema.Player;
@@ -32,6 +34,7 @@ using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
 using MediaPortal.Common.Logging;
+using MediaPortal.Common.PathManager;
 using MediaPortal.Common.PluginManager;
 using MediaPortal.Common.Settings;
 using MediaPortal.Extensions.UserServices.FanArtService.Client.Models;
@@ -49,11 +52,11 @@ namespace Cinema.Models
   {
     public static Timer ATimer = new Timer();
     public static ItemsList Movies = new ItemsList();
+    public static string CachedImagesFolder = ServiceRegistration.Get<IPathManager>().GetPath(@"<DATA>\Cinema");
+    public ItemsList Cinemas = new ItemsList();
+    public static Movies FullMovieList { get; set; }
 
     private static readonly ISettingsManager SETTINGS_MANAGER = ServiceRegistration.Get<ISettingsManager>();
-    public ItemsList Cinemas = new ItemsList();
-
-    public static Movies FullMovieList { get; set; }
 
     #region Consts
 
@@ -229,8 +232,10 @@ namespace Cinema.Models
         item.SetLabel("Runtime", m.Runtime);
         item.SetLabel("Genres", m.Genres);
         item.SetLabel("Age", m.Age);
-        item.SetLabel("CoverUrl", m.CoverUrl);
-        item.SetLabel("Fanart", m.Fanart);
+        //item.SetLabel("CoverUrl", m.CoverUrl);
+        //item.SetLabel("Fanart", m.Fanart);
+        item.SetLabel("CoverUrl", Path.Combine(CachedImagesFolder, m.TmdbId + "-cover.jpg"));
+        item.SetLabel("Fanart", Path.Combine(CachedImagesFolder, m.TmdbId + "-fanart.jpg"));
         item.SetLabel("Language", m.Language);
         item.SetLabel("Description", m.Description);
         item.SetLabel("Country", m.Country);
