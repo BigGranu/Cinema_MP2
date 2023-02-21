@@ -82,7 +82,7 @@
 
       <Grid x:Name="PosterGrid" Width="{StaticResource POSTER_GRID_WIDTH}" Height="{StaticResource POSTER_GRID_HEIGHT}">
         <Image Stretch="Fill" Source="Poster_small.png" Margin="-5"/>
-        <Image x:Name="poster" Stretch="Fill" Margin="3" Source="{Binding [Poster]}"/>
+        <Image x:Name="poster" Stretch="Fill" Margin="3" Source="{Binding [CoverUrl]}"/>
 
         <!-- Fallback Content, if no poster existing -->
         <Image Stretch="UniformToFill" Margin="3" Source="media_item_background.jpg" IsVisible="{Binding ElementName=poster, Path=!HasImage}" Opacity="0.7"/>
