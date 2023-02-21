@@ -65,15 +65,103 @@ namespace Cinema.Models
 
     #region Propertys
 
-    public static readonly AbstractProperty _selectedCinema = new WProperty(typeof(string), string.Empty);
+    #region CinemaId
 
-    public AbstractProperty SelectedCinemaProperty => _selectedCinema;
+    public static readonly AbstractProperty _cinemaId = new WProperty(typeof(string), string.Empty);
 
-    public static string SelectedCinema
+    public AbstractProperty CinemaIdProperty => _cinemaId;
+
+    public static string CinemaId
     {
-      get => (string)_selectedCinema.GetValue();
-      set => _selectedCinema.SetValue(value);
+      get => (string)_cinemaId.GetValue();
+      set => _cinemaId.SetValue(value);
     }
+
+    #endregion
+
+    #region CinemaName
+
+    public static readonly AbstractProperty _cinemaName = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaNameProperty => _cinemaName;
+
+    public static string CinemaName
+    {
+      get => (string)_cinemaName.GetValue();
+      set => _cinemaName.SetValue(value);
+    }
+
+    #endregion
+
+    #region CinemaAddress
+
+    public static readonly AbstractProperty _cinemaAddress = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaAddressProperty => _cinemaAddress;
+
+    public static string CinemaAddress
+    {
+      get => (string)_cinemaAddress.GetValue();
+      set => _cinemaAddress.SetValue(value);
+    }
+
+    #endregion
+
+    #region CinemaLocality
+
+    public static readonly AbstractProperty _cinemaLocality = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaLocalityProperty => _cinemaLocality;
+
+    public static string CinemaLocality
+    {
+      get => (string)_cinemaLocality.GetValue();
+      set => _cinemaLocality.SetValue(value);
+    }
+
+    #endregion
+
+    #region CinemaRegion
+
+    public static readonly AbstractProperty _cinemaRegion = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaRegionProperty => _cinemaRegion;
+
+    public static string CinemaRegion
+    {
+      get => (string)_cinemaRegion.GetValue();
+      set => _cinemaRegion.SetValue(value);
+    }
+
+    #endregion
+
+    #region CinemaPostalCode
+
+    public static readonly AbstractProperty _cinemaPostalCode = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaPostalCodeProperty => _cinemaPostalCode;
+
+    public static string CinemaPostalCode
+    {
+      get => (string)_cinemaPostalCode.GetValue();
+      set => _cinemaPostalCode.SetValue(value);
+    }
+
+    #endregion
+
+    #region CinemaPhone
+
+    public static readonly AbstractProperty _cinemaPhone = new WProperty(typeof(string), string.Empty);
+
+    public AbstractProperty CinemaPhoneProperty => _cinemaPhone;
+
+    public static string CinemaPhone
+    {
+      get => (string)_cinemaPhone.GetValue();
+      set => _cinemaPhone.SetValue(value);
+    }
+
+    #endregion
 
     #endregion
 
@@ -85,7 +173,13 @@ namespace Cinema.Models
       {
         if (cd.Cinema.Id == id)
         {
-          SelectedCinema = cd.Cinema.Name;
+          CinemaId = cd.Cinema.Id;
+          CinemaName = cd.Cinema.Name;
+          CinemaAddress = cd.Cinema.Address;
+          CinemaLocality = cd.Cinema.Locality;
+          CinemaRegion = cd.Cinema.Region;
+          CinemaPostalCode = cd.Cinema.PostalCode;
+          CinemaPhone = cd.Cinema.Phone;
           AddMoviesByCinema(cd.Cinema);
         }
       }
@@ -117,7 +211,7 @@ namespace Cinema.Models
 
         try
         {
-          for (var i = 0; i <= 3; i++)
+          for (var i = 0; i <= 6; i++)
           {
             item.SetLabel("Day" + i, m.Showtimes[i].Day);
             item.SetLabel("Day" + i + "_Time", m.Showtimes[i].Showtimes);

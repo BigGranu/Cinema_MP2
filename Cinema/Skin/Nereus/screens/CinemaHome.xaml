@@ -95,7 +95,7 @@
               <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Content="{Binding Path=SelectedCinema}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
+            <Label Content="{Binding Path=CinemaName}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
                    HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis"/>
 
             <!--Showtimes-->
