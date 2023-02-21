@@ -223,20 +223,25 @@ namespace Cinema.Models
         }
 
         item.SetLabel("Title", m.Title);
-        item.SetLabel("Poster", m.CoverUrl);
-        item.SetLabel("Picture", m.Fanart);
+        item.SetLabel("ImdbId", m.ImdbId);
+        item.SetLabel("TmdbId", m.TmdbId);
+        item.SetLabel("Release", m.Release);
+        item.SetLabel("Runtime", m.Runtime);
+        item.SetLabel("Genres", m.Genres);
+        item.SetLabel("Age", m.Age);
+        item.SetLabel("CoverUrl", m.CoverUrl);
+        item.SetLabel("Fanart", m.Fanart);
+        item.SetLabel("Language", m.Language);
         item.SetLabel("Description", m.Description);
-        item.SetLabel("Year", m.Release);
-        item.SetLabel("AgeLimit", m.Age);
-        item.SetLabel("Genre", m.Genres);
+        item.SetLabel("Country", m.Country);
         item.SetLabel("UserRating", m.UserRating);
         item.SetLabel("UserRatingScaled", m.UserRatingScaled);
+
         if (m.Trailer.Count > 0)
         {
           item.AdditionalProperties[TRAILER] = m.Trailer[0].Url;
         }
 
-        item.SetLabel("Duration", m.Runtime);
         Movies.Add(item);
       }
       Movies.FireChange();
@@ -250,7 +255,7 @@ namespace Cinema.Models
         var fanArtBgModel = (FanArtBackgroundModel)ServiceRegistration.Get<IWorkflowManager>().GetModel(FanArtBackgroundModel.FANART_MODEL_ID);
         if (fanArtBgModel != null)
         {
-          var uriSource = selectedItem.Labels["Picture"].ToString();
+          var uriSource = selectedItem.Labels["Fanart"].ToString();
 
           if (uriSource != "") fanArtBgModel.ImageSource = new MultiImageSource { UriSource = uriSource };
           else fanArtBgModel.ImageSource = new MultiImageSource { UriSource = null };
