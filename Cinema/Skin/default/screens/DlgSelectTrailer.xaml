@@ -6,9 +6,9 @@
   <Include.Resources>
 
     <!-- Header -->
-    <ResourceWrapper x:Key="Dialog_Header_Text" Resource="[Cinema.SelectQuality.Header]"/>
+    <ResourceWrapper x:Key="Dialog_Header_Text" Resource="[Cinema.Movieinfos.Trailer]"/>
 
-    <Model x:Key="Model" Id="6EF784F0-6B89-42D9-B958-85DE8E5D8940"/>
+    <Model x:Key="Model" Id="20D82FAF-610C-4C40-B6C8-3DEA37C6CB22"/>
 
     <ControlTemplate x:Key="Contents_Template">
       <DockPanel DataContext="{Binding Source={StaticResource Model}}">
@@ -20,9 +20,9 @@
             <RowDefinition Height="100*" />
           </Grid.RowDefinitions>
 
-          <!--List of Quality-->
+          <!--List of Languages-->
           <ListView x:Name="Qualitys" Margin="15,5,15,30" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{ThemeResource ContentsMenuListViewStyle}"
-            ItemsSource="{Binding Path=items, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
+            ItemsSource="{Binding Path=Trailers, Mode=TwoWay}" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2">
             <ListView.Resources>
               <CommandList x:Key="Menu_Command">
                 <Command Source="{StaticResource Model}" Path="Select">
@@ -33,10 +33,9 @@
               </CommandList>
             </ListView.Resources>
           </ListView>
-          
+
         </Grid>
       </DockPanel>
     </ControlTemplate>
   </Include.Resources>
 </Include>
-

@@ -24,7 +24,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Timers;
+using System.Xml.Linq;
 using Cinema.Dialoges;
 using Cinema.OnlineLibraries.Data;
 using Cinema.Player;
@@ -32,6 +34,7 @@ using Cinema.Settings;
 using MediaPortal.Common;
 using MediaPortal.Common.General;
 using MediaPortal.Common.Logging;
+using MediaPortal.Common.PathManager;
 using MediaPortal.Common.PluginManager;
 using MediaPortal.Common.Settings;
 using MediaPortal.Extensions.UserServices.FanArtService.Client.Models;
@@ -49,11 +52,11 @@ namespace Cinema.Models
   {
     public static Timer ATimer = new Timer();
     public static ItemsList Movies = new ItemsList();
+    public static string CachedImagesFolder = ServiceRegistration.Get<IPathManager>().GetPath(@"<DATA>\Cinema");
+    public ItemsList Cinemas = new ItemsList();
+    public static Movies FullMovieList { get; set; }
 
     private static readonly ISettingsManager SETTINGS_MANAGER = ServiceRegistration.Get<ISettingsManager>();
-    public ItemsList Cinemas = new ItemsList();
-
-    public static Movies FullMovieList { get; set; }
 
     #region Consts
 
@@ -187,8 +190,9 @@ namespace Cinema.Models
 
     public static void SelectMovie(ListItem item)
     {
-      var t = new Trailer { Title = (string)item.AdditionalProperties[NAME], Url = (string)item.AdditionalProperties[TRAILER] };
-      if (t.Url != null ) CinemaPlayerHelper.PlayStream(t);
+      var name =  (string)item.AdditionalProperties[NAME];
+      DlgSelectTrailer.ReadTrailers(name);
+      ServiceRegistration.Get<IWorkflowManager>().NavigatePushAsync(new Guid("829BD48C-9FF0-4A80-94E0-3BD811ABC226"));
     }
 
     public static void AddMoviesByCinema(OnlineLibraries.Data.Cinema cinema)
@@ -213,8 +217,11 @@ namespace Cinema.Models
         {
           for (var i = 0; i <= 6; i++)
           {
-            item.SetLabel("Day" + i, m.Showtimes[i].Day);
-            item.SetLabel("Day" + i + "_Time", m.Showtimes[i].Showtimes);
+            if (m.Showtimes.Count - 1 >= i)
+            {
+              item.SetLabel("Day" + i, m.Showtimes[i].Day);
+              item.SetLabel("Day" + i + "_Time", m.Showtimes[i].Showtimes);
+            }
           }
         }
         catch (Exception e)
@@ -229,8 +236,8 @@ namespace Cinema.Models
         item.SetLabel("Runtime", m.Runtime);
         item.SetLabel("Genres", m.Genres);
         item.SetLabel("Age", m.Age);
-        item.SetLabel("CoverUrl", m.CoverUrl);
-        item.SetLabel("Fanart", m.Fanart);
+        item.SetLabel("CoverUrl", Path.Combine(CachedImagesFolder, m.TmdbId + "-cover.jpg"));
+        item.SetLabel("Fanart", Path.Combine(CachedImagesFolder, m.TmdbId + "-fanart.jpg"));
         item.SetLabel("Language", m.Language);
         item.SetLabel("Description", m.Description);
         item.SetLabel("Country", m.Country);
@@ -249,8 +256,7 @@ namespace Cinema.Models
 
     public static void SetSelectedItem(object sender, SelectionChangedEventArgs e)
     {
-      var selectedItem = e.FirstAddedItem as ListItem;
-      if (selectedItem != null)
+      if (e.FirstAddedItem is ListItem selectedItem)
       {
         var fanArtBgModel = (FanArtBackgroundModel)ServiceRegistration.Get<IWorkflowManager>().GetModel(FanArtBackgroundModel.FANART_MODEL_ID);
         if (fanArtBgModel != null)

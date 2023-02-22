@@ -41,6 +41,7 @@
     <Model Id="A1529F09-767B-4164-B149-46F6D5729126" ClassName="Cinema.Dialoges.DlgSelectContentLanguage"/>
     <Model Id="7EB0DBD6-4C7B-4FCC-A0CF-06EBE623426F" ClassName="Cinema.Dialoges.DlgSelectCinemaCountry"/>
     <Model Id="5CE9C2B8-FF38-4FBE-A3F8-66F5B5F3FA13" ClassName="Cinema.Dialoges.DlgSelectCinema"/>
+    <Model Id="20D82FAF-610C-4C40-B6C8-3DEA37C6CB22" ClassName="Cinema.Dialoges.DlgSelectTrailer"/>
     <Model Id="69863E06-B955-4540-8B54-BA4BD337AD89" ClassName="Cinema.Dialoges.DlgStartUpdateForWeek"/>
   </Register>
 
@@ -86,14 +87,20 @@
     <DialogState Id="EB0A0374-1341-48FF-AE2B-D2C98A92CCD1"
                  Name="SelectContentLanguage"
                  DialogScreen="DlgSelectContentLanguage"
-                 DisplayLabel="[Cinema.SelectContentLanguage]"
+                 DisplayLabel="[Cinema.Dialog.SelectContentLanguage.Header]"
                  WorkflowModel="A1529F09-767B-4164-B149-46F6D5729126"/>
 
     <DialogState Id="C3DD373F-D15A-476A-A2D8-286625D7AD82"
                  Name="SelectCinemaCountry"
                  DialogScreen="DlgSelectCinemaCountry"
-                 DisplayLabel="[Cinema.SelectContentLanguage]"
+                 DisplayLabel="[Cinema.Dialog.SelectCinemaCountry.Header]"
                  WorkflowModel="7EB0DBD6-4C7B-4FCC-A0CF-06EBE623426F"/>
+
+    <DialogState Id="829BD48C-9FF0-4A80-94E0-3BD811ABC226"
+                 Name="SelectTrailer"
+                 DialogScreen="DlgSelectTrailer"
+                 DisplayLabel="[Cinema.Movieinfos.Trailer]"
+                 WorkflowModel="20D82FAF-610C-4C40-B6C8-3DEA37C6CB22"/>
 
     <DialogState Id="C6148983-0E4A-4127-9AE7-92E348C6AB0A"
                  Name="StartUpdateForWeek"

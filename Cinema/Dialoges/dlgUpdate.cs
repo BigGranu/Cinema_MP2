@@ -133,47 +133,6 @@ namespace Cinema.Dialoges
       _updateIsRunning = false;
     }
 
-    public static void GrappOtherInfos()
-    {
-      //var ml = new List<Movie>();
-      //var l = new List<string>();
-      //_movies = new Movies();
-
-      //foreach (var mo in from cd in GoogleMovies.GoogleMovies.Data.List from m in cd.MoviesOnDayList from mo in m.Movielist.Where(mo => !l.Contains(mo.Title)) select mo)
-      //{
-      //  l.Add(mo.Title);
-      //  ml.Add(mo);
-      //}
-
-      //int percent = 100 / (ml.Count);
-
-      //foreach (Movie m in ml)
-      //{
-      //  Info = m.Title;
-
-      //  var gm = new GrappedMovie();
-      //  var imdb = MovieInfo.GetImdbID(m.Title);
-      //  gm.ImdbID = imdb;
-      //  gm.Title = m.Title;
-
-      //  var mi = new MovieInfo(imdb);
-
-      //  gm.Poster = mi.Poster;
-      //  gm.Picture = mi.Picture;
-      //  gm.Description = mi.Description;
-      //  gm.Year = mi.Year;
-      //  gm.AgeLimit = mi.AgeLimit;
-      //  gm.Genre = mi.Genre;
-      //  gm.Trailer = mi.Trailer;
-
-      //  _movies.MovieList.Add(gm);
-      //  UpdateProgress += percent;
-      //}
-
-      //ServiceRegistration.Get<ISettingsManager>().Save(_movies);
-      //UpdateProgress = 0;
-    }
-
     #region IWorkflowModel implementation
 
     public Guid ModelId

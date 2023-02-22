@@ -24,6 +24,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Cinema.Helper;
+using Cinema.Models;
 using Cinema.OnlineLibraries;
 using Cinema.Settings;
 using MediaPortal.Common;
@@ -39,16 +42,110 @@ namespace Cinema.Dialoges
 {
   internal class DlgStartUpdateForWeek : IWorkflowModel
   {
-    #region Consts
-
-    public const string MODEL_ID_STR = "69863E06-B955-4540-8B54-BA4BD337AD89";
-
-    #endregion
-
     private static Cinema.Settings.CinemaSettings _settings = new Cinema.Settings.CinemaSettings();
     private static Locations _locations;
-
     private static Cinema.OnlineLibraries.Eventhandler _handler = Eventhandler.Instance;
+
+    private void Init()
+    {
+      var settingsManager = ServiceRegistration.Get<ISettingsManager>();
+      _settings = settingsManager.Load<Cinema.Settings.CinemaSettings>();
+      _locations = settingsManager.Load<Locations>();
+
+      _handler.MessageReceived += HandlerOnMessageReceived;
+    }
+
+    public static void StartUpdate()
+    {
+      List<string> ids = new List<string>();
+      foreach (var cinema in _locations.LocationSetupList)
+      {
+        ids.Add(cinema.Id);
+      }
+      
+      var ret = OnlineLibraries.Read.MoviesForAllDaysAndCinemas(
+        _settings.ContentLanguage,
+        _settings.LocationCountryCode,
+        _settings.LocationPostalCode,
+        _locations.LocationSetupList);
+
+      Cinema.Settings.Movies movies = new Movies(ret);
+
+      ServiceRegistration.Get<ISettingsManager>().Save(movies);
+
+      LoadImages(ret);
+
+      ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();
+    }
+
+    private void HandlerOnMessageReceived(object sender, string message)
+    {
+      if (message.StartsWith("[D]"))
+        Day = message.Replace("[D]", "");
+
+      if (message.StartsWith("[C]"))
+        Cinema = message.Replace("[C]", "");
+
+      if (message.StartsWith("[M]"))
+        CurrentMovie = message.Replace("[M]", "");
+    }
+
+    private static void LoadImages(List<OnlineLibraries.Data.CinemaMovies> movies)
+    {
+      if (!Directory.Exists(CinemaHome.CachedImagesFolder))
+      {
+        Directory.CreateDirectory(CinemaHome.CachedImagesFolder);
+      }
+
+      List<CachedImage> newCachedImages = new List<CachedImage>();
+      List<string> newFiles = new List<string>();
+
+      foreach (var movie in movies)
+      {
+        foreach (var m in movie.Movies)
+        {
+          var fa = new CachedImage(m.Fanart, m.TmdbId, "fanart");
+          if (!newFiles.Contains(fa.FullPath))
+          {
+            newFiles.Add(fa.FullPath);
+            newCachedImages.Add(fa);
+          }
+
+          var co = new CachedImage(m.CoverUrl, m.TmdbId, "cover");
+          if (!newFiles.Contains(co.FullPath))
+          {
+            newFiles.Add(co.FullPath);
+            newCachedImages.Add(co);
+          }
+        }
+      }
+
+      var oldFile = Directory.EnumerateFiles(CinemaHome.CachedImagesFolder);
+
+      foreach (var file in oldFile)
+      {
+        if (!newFiles.Contains(file))
+        {
+          File.Delete(file);
+        }
+      }
+
+      foreach (var cim in newCachedImages)
+      {
+        if (!File.Exists(cim.FullPath))
+        {
+          cim.LoadImageFromWeb();
+        }
+      }
+    }
+
+    public void Select(ListItem item)
+    {
+      //Cinema.Models.CinemaSettings.CountryCode = (string)item.AdditionalProperties[CODE];
+      //ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();      
+    }
+
+    #region Propertys
 
     #region Cinema
     private static readonly AbstractProperty _cinemaProperty = new WProperty(typeof(string), string.Empty);
@@ -95,51 +192,13 @@ namespace Cinema.Dialoges
     }
     #endregion
 
-    public static void StartUpdate()
-    {
-      List<string> ids = new List<string>();
-      foreach (var cinema in _locations.LocationSetupList)
-      {
-        ids.Add(cinema.Id);
-      }
-      
-      var ret = OnlineLibraries.Read.MoviesForAllDaysAndCinemas(
-        _settings.ContentLanguage,
-        _settings.LocationCountryCode,
-        _settings.LocationPostalCode,
-        _locations.LocationSetupList);
+    #endregion
 
-      Cinema.Settings.Movies movies = new Movies(ret);
+    #region Consts
 
-      ServiceRegistration.Get<ISettingsManager>().Save(movies);
-      ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();
-    }
+    public const string MODEL_ID_STR = "69863E06-B955-4540-8B54-BA4BD337AD89";
 
-    private void Init()
-    {
-      var settingsManager = ServiceRegistration.Get<ISettingsManager>();
-      _settings = settingsManager.Load<Cinema.Settings.CinemaSettings>();
-      _locations = settingsManager.Load<Locations>();
-
-      _handler.MessageReceived += HandlerOnMessageReceived;
-    }
-    private void HandlerOnMessageReceived(object sender, string message)
-    {
-      if (message.StartsWith("[D]"))
-        Day = message.Replace("[D]", "");
-
-      if (message.StartsWith("[C]"))
-        Cinema = message.Replace("[C]", "");
-
-      if (message.StartsWith("[M]"))
-        CurrentMovie = message.Replace("[M]", "");
-    }
-
-    public void Select(ListItem item)
-    {
-      //Cinema.Models.CinemaSettings.CountryCode = (string)item.AdditionalProperties[CODE];
-      //ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();      
-    }
+    #endregion
 
     #region IWorkflowModel implementation
 
