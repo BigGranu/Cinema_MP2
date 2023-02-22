@@ -82,54 +82,64 @@
           </Grid>
 
           <!--Infos-->
-          <Grid Grid.Column="0" Grid.Row="0" Margin="15,60,5,5">
+          <Grid Grid.Column="0" Grid.Row="0" Margin="30,60,30,5">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="250"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="*"/>
+              <RowDefinition Height="38*"/>
+              <RowDefinition Height="62*"/>
+              <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
 
             <!--Cinema Details-->
-            <StackPanel Orientation="Vertical" Margin="15,0,15,0" Grid.ColumnSpan="2">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+              
               <Label Content="{Binding Path=CinemaName}" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
                      HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis"/>
-              <StackPanel Orientation="Horizontal">
-                <Grid>
+              
+              <Grid Margin="0,0,20,20" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
                   <Image Source="HomeContentIcons\place.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
                          VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <Label HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
+                  <Label HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="35,0,0,0"
                          Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
                     <Label.Content>
-                      <MultiBinding Converter="{StaticResource ExpressionMultiValueConverter}" ConverterParameter="{}{0}+{4}+{1}+{3}+{2}">
+                      <MultiBinding Converter="{StaticResource ExpressionMultiValueConverter}" ConverterParameter="{}{2}+{3}+{1}+{4}+{0}+{5}">
                         <Binding Path="CinemaPostalCode"/>
                         <Binding Path="CinemaLocality"/>
                         <Binding Path="CinemaAddress"/>
                         <Binding Source=", "/>
-                        <Binding Source=" "/>
+                        <Binding Source=" ("/>
+                        <Binding Source=")"/>
                       </MultiBinding>
                     </Label.Content>
                   </Label>
                 </Grid>
                 <Grid IsVisible="{Binding ElementName=Phone, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}"
-                      Margin="30,0,0,0">
+                      Margin="30,0,0,0" Grid.Column="1">
                   <Image Source="phone.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
                          VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                  <Label x:Name="Phone" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0" TextTrimming="CharacterEllipsis"
+                  <Label x:Name="Phone" FontSize="{ThemeResource SmallFontSize}" Margin="35,0,0,0" TextTrimming="CharacterEllipsis"
                          Content="{Binding CinemaPhone}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
                 </Grid>
-              </StackPanel>
-            </StackPanel>
+              </Grid>
 
-            <!--Showtimes-->
-            <StackPanel Orientation="Vertical" Grid.ColumnSpan="2" Grid.Row="1" Margin="15,5,5,5">
-              <Grid Margin="0" >
+              <!--Showtimes-->
+              <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="22*"/>
                   <ColumnDefinition Width="78*"/>
@@ -161,22 +171,35 @@
                 <Label Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
                        Content="{Binding [Day3_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="10"/>
               </Grid>
-            </StackPanel>
-
-            <Label Grid.Row="2" Grid.ColumnSpan="2" Content="{Binding [Title]}" Margin="15,0,15,0" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
-                   HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"/>
-
-            <!--Infos - Genre-->
-            <Grid Grid.Row="3" Grid.ColumnSpan="2" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Margin="15,0,0,0"
-                  IsVisible="{Binding ElementName=Genre, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-              <Image Source="HomeContentIcons\Genre.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                     VerticalAlignment="Center" HorizontalAlignment="Left"/>
-              <Label x:Name="Genre" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0" TextTrimming="CharacterEllipsis"
-                     Content="{Binding [Genres]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
             </Grid>
-            
-            <StackPanel Orientation="Vertical" Grid.Row="4" Margin="15,0,5,5">
-              <StackPanel Orientation="Horizontal" Margin="0,0,0,0">
+
+            <Grid Grid.Row="1">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="400"/>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+
+              <Label Grid.ColumnSpan="2" Content="{Binding [Title]}" FontFamily="Noto-Bold"  FontSize="{ThemeResource NormalFontSize}"
+                     HorizontalAlignment="Stretch" Color="{ThemeResource TextColor}" TextTrimming="WordEllipsis" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"/>
+
+              <!--Infos - Genre-->
+              <Grid Grid.Row="1" Grid.ColumnSpan="2" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                    IsVisible="{Binding ElementName=Genre, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                <Image Source="HomeContentIcons\Genre.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <Label x:Name="Genre" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0" TextTrimming="CharacterEllipsis"
+                       Content="{Binding [Genres]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
+              </Grid>
+
+              <StackPanel Grid.Row="2" Orientation="Horizontal">
                 <!--Infos - Year-->
                 <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
                       IsVisible="{Binding ElementName=Year, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
@@ -212,37 +235,42 @@
                 </Grid>
               </StackPanel>
 
-              <!--Infos - Duration-->
-              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    IsVisible="{Binding ElementName=Runtime, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                <Image Source="HomeContentIcons\Duration.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <Label x:Name="Runtime" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
-                         IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}"
-                         Content="{Binding [Runtime]}" VerticalAlignment="Center" Margin="40,0,0,0"/>
-                  <Label Content=" " IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
-                  <Label Content="[Media.Minutes]" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
-                         IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
-                </StackPanel>
-              </Grid>
+                <!--Infos - Duration-->
+                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Grid.Row="3"
+                      IsVisible="{Binding ElementName=Runtime, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                  <Image Source="HomeContentIcons\Duration.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                  <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Label x:Name="Runtime" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
+                           IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}"
+                           Content="{Binding [Runtime]}" VerticalAlignment="Center" Margin="40,0,0,0"/>
+                    <Label Content=" " IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
+                    <Label Content="[Media.Minutes]" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColorForeground}"
+                           IsVisible="{Binding Path=[Runtime],Converter={StaticResource ReferenceToBoolConverter}}" VerticalAlignment="Center"/>
+                  </StackPanel>
+                </Grid>
 
-              <!--Infos - AgeLimit-->
-              <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
-                    IsVisible="{Binding ElementName=Age, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
-                <Image Source="HomeContentIcons\Rating.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
-                       VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <Label x:Name="Age" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
-                       Content="{Binding [Age]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
-              </Grid>
-            </StackPanel>
+                <!--Infos - AgeLimit-->
+                <Grid DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Grid.Row="4"
+                      IsVisible="{Binding ElementName=Age, Path=Content, Converter={StaticResource EmptyStringToFalseConverter}}">
+                  <Image Source="HomeContentIcons\Rating.png" Height="27" Width="27" Stretch="Uniform" Margin="0,0,5,0"
+                         VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                  <Label x:Name="Age" HorizontalAlignment="Left" FontSize="{ThemeResource SmallFontSize}" Margin="40,0,0,0"
+                         Content="{Binding [Age]}" Color="{ThemeResource TextColorForeground}" VerticalAlignment="Center"/>
+                </Grid>
 
-            <!--Infos - Description-->
-            <Label Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Margin="15,0,0,0"
-                   Content="{Binding [Description]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Wrap="True" TextTrimming="WordEllipsis" Height="320"/>
+                <!--Infos - Description-->
+                <Label Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Description]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Wrap="True" TextTrimming="WordEllipsis" />
+
+              <!--Poster-->
+              <Image x:Name="imgPoster" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Margin="10,20,10,0"
+                     Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [CoverUrl]}"/>
+              
+            </Grid>
 
             <!-- Actual Item / Total items -->
-            <DockPanel Grid.Row="5" VerticalAlignment="Bottom" HorizontalAlignment="Left" IsVisible="{Binding IsItemsValid}" Margin="15,0,0,50">
+            <DockPanel Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" IsVisible="{Binding IsItemsValid}" Margin="0,0,0,50">
               <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0"
                    Color="{ThemeResource TextColor}" FontSize="{ThemeResource SmallerFontSize}">
@@ -259,10 +287,6 @@
               </StackPanel>
             </DockPanel>
             
-            <!--Poster-->
-            <Image x:Name="imgPoster" Grid.Column="1" Grid.RowSpan="2" Grid.Row="4" Margin="20,20,30,95" Width="360"
-                   Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [CoverUrl]}"/>
-
           </Grid>
         </Grid>
 
