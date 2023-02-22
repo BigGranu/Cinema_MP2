@@ -149,6 +149,8 @@
                   <RowDefinition Height="25*"/>
                   <RowDefinition Height="25*"/>
                   <RowDefinition Height="25*"/>
+                  <RowDefinition Height="25*"/>
+                  <RowDefinition Height="25*"/>
                 </Grid.RowDefinitions>
 
                 <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
@@ -170,6 +172,16 @@
                        Content="{Binding [Day3]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
                 <Label Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
                        Content="{Binding [Day3_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="10"/>
+
+                <Label Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day4]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day4_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="10"/>
+
+                <Label Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day5]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}"/>
+                <Label Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                       Content="{Binding [Day5_Time]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Scroll="Auto" ScrollSpeed="10"/>
               </Grid>
             </Grid>
 
@@ -260,7 +272,7 @@
                 </Grid>
 
                 <!--Infos - Description-->
-                <Label Grid.Row="5" VerticalAlignment="Top" HorizontalAlignment="Left" DataContext="{Binding ElementName=Movies,Path=CurrentItem}"
+                <Label Grid.Row="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Margin="0,0,0,20"
                        Content="{Binding [Description]}" FontSize="{ThemeResource SmallerFontSize}" Color="{ThemeResource TextColor}" Wrap="True" TextTrimming="WordEllipsis" />
 
               <!--Poster-->
