@@ -25,14 +25,17 @@
 using System;
 using System.Collections.Generic;
 using Cinema.Models;
+using Cinema.OnlineLibraries.Data;
 using Cinema.Player;
 using Cinema.Settings;
 using MediaPortal.Common;
+using MediaPortal.Common.Logging;
 using MediaPortal.Common.Settings;
 using MediaPortal.UI.Presentation.DataObjects;
 using MediaPortal.UI.Presentation.Models;
 using MediaPortal.UI.Presentation.Screens;
 using MediaPortal.UI.Presentation.Workflow;
+using Trailer = Cinema.Settings.Trailer;
 
 namespace Cinema.Dialoges
 {
@@ -48,12 +51,10 @@ namespace Cinema.Dialoges
 
     public static ItemsList Trailers = new ItemsList();
 
+    private static Movie _movie;
+
     public static void Init()
     {
-      
-
-
-
     }
 
     public static void ReadTrailers(string movieName)
@@ -66,6 +67,7 @@ namespace Cinema.Dialoges
         {
           if (movie.Title == movieName)
           {
+            _movie = movie;
             FillTrailers(movie.Trailer);
             break;
           }
@@ -93,6 +95,7 @@ namespace Cinema.Dialoges
     public static void Select(ListItem item)
     {
       var t = new Trailer { Title = (string)item.AdditionalProperties[NAME], Url = (string)item.AdditionalProperties[URL] };
+      ServiceRegistration.Get<ILogger>().Debug("Cinema: Select Trailer for '{0}' - TmdbId:{1}", _movie.Title, _movie.TmdbId);
       ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();
       if (t.Url != null ) CinemaPlayerHelper.PlayStream(t); 
     }

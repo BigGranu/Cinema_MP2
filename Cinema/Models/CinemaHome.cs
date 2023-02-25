@@ -55,8 +55,7 @@ namespace Cinema.Models
     public static string CachedImagesFolder = ServiceRegistration.Get<IPathManager>().GetPath(@"<DATA>\Cinema");
     public ItemsList Cinemas = new ItemsList();
     public static Movies FullMovieList { get; set; }
-
-    private static readonly ISettingsManager SETTINGS_MANAGER = ServiceRegistration.Get<ISettingsManager>();
+    
 
     #region Consts
 
@@ -172,10 +171,12 @@ namespace Cinema.Models
 
     public static void SelectCinema(string id)
     {
+      ServiceRegistration.Get<ILogger>().Debug("Cinema: Load Data for '{0}' Cinemas", FullMovieList.CinemaMovies.Count);
       foreach (var cd in FullMovieList.CinemaMovies)
       {
         if (cd.Cinema.Id == id)
         {
+          ServiceRegistration.Get<ILogger>().Debug("Cinema: Load '{0}' Movies for '{1}'", cd.Movies.Count, cd.Cinema.Name);
           CinemaId = cd.Cinema.Id;
           CinemaName = cd.Cinema.Name;
           CinemaAddress = cd.Cinema.Address;
@@ -288,8 +289,7 @@ namespace Cinema.Models
     {
       //CkeckUpdate(true);
       //todo Muss wieder durch Update ersetzt werden
-      FullMovieList = SETTINGS_MANAGER.Load<Movies>();
-
+      FullMovieList = ServiceRegistration.Get<ISettingsManager>().Load<Movies>();
       if (FullMovieList != null && FullMovieList.CinemaMovies != null && FullMovieList.CinemaMovies.Count > 0) SelectCinema(FullMovieList.CinemaMovies[0].Cinema.Id);
     }
 
