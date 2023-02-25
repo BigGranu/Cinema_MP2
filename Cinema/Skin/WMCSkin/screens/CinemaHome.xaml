@@ -455,9 +455,16 @@
                      Content="{Binding [Description]}" FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColor}" Wrap="True" TextTrimming="WordEllipsis" />
 
               <!--Poster-->
-              <Image x:Name="imgPoster" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Margin="25,10,0,20"
-                     Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Bottom" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [CoverUrl]}"/>
-
+              <Image x:Name="imgPoster" Grid.Column="1" Grid.Row="2" Grid.RowSpan="4" Margin="20,10,0,20" Width="300" Height="450"
+                     Stretch="Fill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" DataContext="{Binding ElementName=Movies,Path=CurrentItem}" Source="{Binding [CoverUrl]}">
+                <Image.OpacityMask>
+                  <VisualBrush>
+                    <VisualBrush.Visual>
+                      <Border Name="mask" Background="White" CornerRadius="6" BorderThickness="0" BorderBrush="Black"/>
+                    </VisualBrush.Visual>
+                  </VisualBrush>
+                </Image.OpacityMask>
+              </Image>
             </Grid>
 
           </Grid>
