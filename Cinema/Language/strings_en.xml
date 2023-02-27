@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="Cinema.Title">Cinema</string>
+  <string name="Cinema.Helptext">Check showtimes of the latest movies in cinemas</string>
 
   <string name="Cinema.Location.Settings.ScreenTitle">Locations</string>
   <string name="Cinema.Location.Settings.Helptext">Put the Locations of your Cinemas</string>

@@ -9,7 +9,8 @@
 			SortOrder="a"
 			SourceStates="7F702D9C-F2DD-42da-9ED8-0BA92F07787F"
 			TargetState="5074508B-F6EE-4150-8FCD-7D8BD0A183F8"
-			DisplayTitle="[Cinema.Title]"/>
+			DisplayTitle="[Cinema.Title]"
+      HelpText="[Cinema.Helptext]"/>
 
     <!--Select Cinema-->
     <PushNavigationTransition Id="FC9A71D6-752C-43CF-9DB7-7F002385D06A"
