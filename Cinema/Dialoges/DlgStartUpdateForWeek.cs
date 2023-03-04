@@ -74,7 +74,10 @@ namespace Cinema.Dialoges
 
       ServiceRegistration.Get<ISettingsManager>().Save(movies);
 
-      await Task.Run(() => LoadImages(ret));
+      List<Task> allTasks = new List<Task>();
+
+      allTasks.Add(Task.Run(() => LoadImages(ret)));
+      await Task.WhenAll(allTasks);
 
       ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();
     }
