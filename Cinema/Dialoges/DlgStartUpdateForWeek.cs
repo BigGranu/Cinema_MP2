@@ -25,6 +25,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Cinema.Helper;
 using Cinema.Models;
 using Cinema.OnlineLibraries;
@@ -55,7 +56,7 @@ namespace Cinema.Dialoges
       _handler.MessageReceived += HandlerOnMessageReceived;
     }
 
-    public static void StartUpdate()
+    public async void StartUpdate()
     {
       List<string> ids = new List<string>();
       foreach (var cinema in _locations.LocationSetupList)
@@ -73,7 +74,7 @@ namespace Cinema.Dialoges
 
       ServiceRegistration.Get<ISettingsManager>().Save(movies);
 
-      LoadImages(ret);
+      await Task.Run(() => LoadImages(ret));
 
       ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();
     }
