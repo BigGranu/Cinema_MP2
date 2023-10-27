@@ -287,7 +287,7 @@ namespace Cinema.Models
 
     private static void Init()
     {
-      //CkeckUpdate(true);
+      CkeckUpdate(true);
       //todo Muss wieder durch Update ersetzt werden
       FullMovieList = ServiceRegistration.Get<ISettingsManager>().Load<Movies>();
       if (FullMovieList != null && FullMovieList.CinemaMovies != null && FullMovieList.CinemaMovies.Count > 0) SelectCinema(FullMovieList.CinemaMovies[0].Cinema.Id);
@@ -295,21 +295,21 @@ namespace Cinema.Models
 
     private static void CkeckUpdate(bool dialog)
     {
-      //var dt1 = Convert.ToDateTime(SETTINGS_MANAGER.Load<Settings.CinemaSettings>().LastUpdate);
-      //var dt = DateTime.Now - dt1;
-      //// Is it a New Day ?
-      //if (dt > new TimeSpan(1, 0, 0, 0))
-      //{
-      //    MakeUpdate(dialog);
-      //}
-      //else if (SETTINGS_MANAGER.Load<Locations>().Changed)
-      //{
-      //    MakeUpdate(dialog);
-      //}
-      //else
-      //{
-      //    GoogleMovies.GoogleMovies.Data = SETTINGS_MANAGER.Load<Datalist>().CinemaDataList;
-      //}
+      var dt1 = Convert.ToDateTime(ServiceRegistration.Get<ISettingsManager>().Load<Settings.CinemaSettings>().LastUpdate);
+      var dt = DateTime.Now - dt1;
+      // Is it a New Day ?
+      if (dt > new TimeSpan(1, 0, 0, 0))
+      {
+        MakeUpdate(dialog);
+      }
+      else if (ServiceRegistration.Get<ISettingsManager>().Load<Locations>().Changed)
+      {
+        MakeUpdate(dialog);
+      }
+      else
+      {
+        //GoogleMovies.GoogleMovies.Data = SETTINGS_MANAGER.Load<Datalist>().CinemaDataList;
+      }
     }
 
     //private static string ShowtimesByCinemaMovieDay(Settings.Cinema cinema, Movie movie, int day)

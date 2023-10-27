@@ -105,7 +105,7 @@
     <DialogState Id="C6148983-0E4A-4127-9AE7-92E348C6AB0A"
                  Name="StartUpdateForWeek"
                  DialogScreen="DlgStartUpdateForWeek"
-                 DisplayLabel="[Cinema.SelectContentLanguage]"
+                 DisplayLabel="[Cinema.LoadUpdate.Manually]"
                  WorkflowModel="69863E06-B955-4540-8B54-BA4BD337AD89"/>
   </Register>
 
@@ -141,7 +141,7 @@
 
     <CustomConfigSetting
       Id="Cinema_StartUpdate"
-      Text="Update for testing"
+      Text="[Cinema.LoadUpdate.Manually]"
       ClassName="Cinema.Settings.Configuration.StartUpdate"
       AdditionalData="WorkflowState=C6148983-0E4A-4127-9AE7-92E348C6AB0A,ConfAppPanel=..."/>
   </Register>

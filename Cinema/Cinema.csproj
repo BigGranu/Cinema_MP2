@@ -7,13 +7,13 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net48'">
+  <!--<PropertyGroup Condition="'$(TargetFramework)'=='net48'">
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-  </PropertyGroup>
+  </PropertyGroup>-->
 
   <ItemGroup>
-    <PackageReference Include="YoutubeExplode" Version="6.2.6" />
+    <PackageReference Include="YoutubeExplode" Version="6.3.1" />
   </ItemGroup>
 
   <ItemGroup>

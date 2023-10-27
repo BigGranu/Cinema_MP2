@@ -143,12 +143,6 @@ namespace Cinema.Dialoges
       }
     }
 
-    public void Select(ListItem item)
-    {
-      //Cinema.Models.CinemaSettings.CountryCode = (string)item.AdditionalProperties[CODE];
-      //ServiceRegistration.Get<IScreenManager>().CloseTopmostDialog();      
-    }
-
     #region Propertys
 
     #region Cinema

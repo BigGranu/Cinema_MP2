@@ -59,7 +59,6 @@ namespace Cinema.Player
 
       MultipleMediaItemAspect providerResourceAspect = MediaItemAspect.CreateAspect(aspects, ProviderResourceAspect.Metadata);
       SingleMediaItemAspect mediaAspect = MediaItemAspect.GetOrCreateAspect(aspects, MediaAspect.Metadata);
-      SingleMediaItemAspect audioAspect = MediaItemAspect.GetOrCreateAspect(aspects, VideoAspect.Metadata);
       var trailerUrl = TryGetDirectVideoUrl(trailer.Url).Result;
       providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_TYPE, ProviderResourceAspect.TYPE_PRIMARY);
       providerResourceAspect.SetAttribute(ProviderResourceAspect.ATTR_RESOURCE_ACCESSOR_PATH, RawUrlResourceProvider.ToProviderResourcePath(trailerUrl).Serialize());
@@ -74,23 +73,40 @@ namespace Cinema.Player
 
     private static async Task<string> TryGetDirectVideoUrl(string trailerUrl)
     {
-      var youtube = new YoutubeClient();
+      try
+      {
+        if (trailerUrl.StartsWith("https://youtu.be/"))
+        {
+          return await GetYoutubeUrl(trailerUrl);
+        }
+        else
+        {
+          return trailerUrl;
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+      }
 
-      var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
-      var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
-
-      //if (streamInfo != null)
-      //{
-      //  int runtime = Runtime(streamInfo.Bitrate.KiloBitsPerSecond, streamInfo.Size.KiloBytes);
-      //}
-
-      return streamInfo?.Url;
+      return "";
     }
 
-    private static int Runtime(double bitrate, double size)
+    private static async Task<string> GetYoutubeUrl(string trailerUrl)
     {
-      double kbs = bitrate / 8;
-      return (int)(size / kbs);
+      try
+      {
+        var youtube = new YoutubeClient();
+        var streamManifest = await youtube.Videos.Streams.GetManifestAsync(trailerUrl);
+        var streamInfo = streamManifest.GetMuxedStreams().TryGetWithHighestVideoQuality();
+        return streamInfo?.Url;
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+      }
+
+      return "";
     }
   }
 }

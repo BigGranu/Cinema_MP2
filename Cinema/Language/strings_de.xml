@@ -16,9 +16,6 @@
   <string name="Cinema.SelectQuality.Header">Wähle eine Qualität</string>
   <string name="Cinema.SelectCinema">Wähle ein Kino</string>
 
-  <string name="Cinema.Models.CinemaComingSoonCinema">Demnächst im Kino</string>
-  <string name="Cinema.Models.CinemaComingSoonBluRay">Demnächst auf BluRay</string>
-
   <string name="Cinema.Dialog.SelectContentLanguage.Header">Sprache der Inhalte</string>
   <string name="Cinema.Dialog.SelectCinemaCountry.Header">Land des Kinos</string>
 
