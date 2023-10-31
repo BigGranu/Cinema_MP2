@@ -25,15 +25,15 @@
                    VerticalAlignment="Center" HorizontalAlignment="Left"
                    FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColor}"/>
 
-            <Label Content="{Binding Path=Cinema, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Label Content="{Binding Source={StaticResource Model}, Path=CinemaValue}"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColor}"/>
 
-            <Label Content="{Binding Path=Day, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Label Content="{Binding Path=DayValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColor}"/>
 
-            <Label Content="{Binding Path=CurrentMovie, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Label Content="{Binding Path=CurrentMovieValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                    VerticalAlignment="Center" HorizontalAlignment="Center"
                    FontSize="{ThemeResource SmallFontSize}" Color="{ThemeResource TextColor}"/>
 
